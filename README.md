@@ -45,4 +45,4 @@ After launching the application, users can register, log in, create ads for the 
 
 ## License
 
-This project is licensed under the terms of the GPL-3.0 license. Detailed information can be found in the [LICENSE](LICENSE) file.
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
