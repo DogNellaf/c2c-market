@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Models\Market;
+
+class MarketController extends Controller
+{
+    public function index() {
+		$context = ['ads' => Ad::latest()->get()];
+		return view('index', $context);
+	}
+	public function detail(Ad $ad) {
+		return view('detail', ['ad' => $ad]);
+	}
+}
