@@ -1,33 +1,70 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 	<head>
-		<link href="styles/app.css" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 		<title>@yield('title')</title>
+
+		<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/templatemo-liberty-market.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/owl.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/roboto.css') }}">
+		<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 	</head>
 	<body>
-		<header>
-			<nav class="navbar navbar-light bg-light">
-				<div class="container-fluid">
-					<a href="{{ route('index') }}" class="navbar-brand me-auto">Главная</a>
-					<a href="{{ route('register') }}" class="nav-item nav-link">Регистрация</a>
-					<a href="{{ route('login') }}" class="nav-item nav-link">Вход</a>
-					<a href="{{ route('admin') }}" class="nav-item nav-link">Панель администратора</a>
-					<form action="{{ route('logout') }}" method="POST" class="form-inline">
-						@csrf
-						<input type="submit" class="btn btn-danger" value="Выход">
-					</form>
+		<div id="js-preloader" class="js-preloader">
+			<div class="preloader-inner">
+				<span class="dot"></span>
+				<div class="dots">
+					<span></span>
+					<span></span>
+					<span></span>
 				</div>
-			</nav>
-		</header>
-		<div class="container">
-			
-			@yield('content')
+			</div>
 		</div>
+		<header class="header-area header-sticky">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<nav class="main-nav">
+							<a href="index.html" class="logo">
+								<img src="{{ asset('images/logo.png') }}" alt="">
+							</a>
+							<ul class="nav">
+								<li><a href="{{ route('index') }}" class="active">Главная</a></li>
+								<li><a href="">Модели</a></li>
+								<li><a href="{{ route('admin') }}">Панель администратора</a></li>
+								<li><a href="">Личный кабинет</a></li>
+							</ul>   
+							<a class='menu-trigger'>
+								<span>Меню</span>
+							</a>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</header>
+  
+		@yield('content')
+  
 		<footer>
-			<p><center>Сделал: Петунин Иван Евгеньевич</center></p>
-			
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<p>Copyright © 2024 Петунин Иван Евгеньевич
+					</div>
+				</div>
+			</div>
 		</footer>
+		<script src="{{ asset('jquery/jquery.min.js') }}"></script>
+		<script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('js/isotope.min.js') }}"></script>
+		<script src="{{ asset('js/owl-carousel.js') }}"></script>
+		<script src="{{ asset('js/tabs.js') }}"></script>
+		<script src="{{ asset('js/popup.js') }}"></script>
+		<script src="{{ asset('js/custom.js') }}"></script>
 	</body>
-
 </html>

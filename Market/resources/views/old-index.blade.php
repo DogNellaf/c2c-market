@@ -19,7 +19,7 @@
 				<th>{{$ad->description}}</th>
 				<th>{{$ad->price}}</th>
 				<th>{{$ad->author}}</th>
-					<a href="{{ route('detail', ['article' => $article]) }}">Подробнее...</a>
+					<a href="{{ route('ad-detail', ['ad' => $ad]) }}">Подробнее...</a>
 				</td>
 			</tr>
 			@endforeach
