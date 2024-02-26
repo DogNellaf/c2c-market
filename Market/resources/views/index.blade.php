@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Главная')
+@section('index_active', 'active')
 @section('content')
 	<div class="main-banner">
 		<div class="container">

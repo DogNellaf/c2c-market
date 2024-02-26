@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="{{ asset('css/owl.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/roboto.css') }}">
-		<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+		<link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}"/>
 	</head>
 	<body>
 		<div id="js-preloader" class="js-preloader">
@@ -34,15 +34,30 @@
 								<img src="{{ asset('images/logo.png') }}" alt="">
 							</a>
 							<ul class="nav">
-								<li><a href="{{ route('index') }}" class="active">Главная</a></li>
-								<li><a href="">Модели</a></li>
-								<li><a href="{{ route('admin') }}">Панель администратора</a></li>
-								<li><a href="">Личный кабинет</a></li>
+							<li><a href="{{ route('index') }}" class="@yield('index_active')">Главная</a></li>
+							<li><a href="">Модели</a></li>
+							@guest
+									<li><a href="{{ route('register') }}" class="@yield('register_active')">Регистрация</a></li>
+									<li><a href="{{ route('login') }}" class="@yield('login_active')">Вход</a></li>
+							@endguest
+							@auth
+							@if (Auth::user()->is_admin)
+								<li><a href="{{ route('admin') }}" class="@yield('admin_active')">Панель администратора</a></li>
+							@else
+								<li><a href="" class="@yield('home_active')">Личный кабинет</a></li>
+							@endif
+								<li><a onclick="document.getElementById('logout').click();">Выход</a></li>
+									<form action="{{ route('logout') }}" method="POST">
+										@csrf
+										<input id="logout" hidden type="submit"/>
+									</form>
+							@endauth
 							</ul>   
 							<a class='menu-trigger'>
 								<span>Меню</span>
 							</a>
 						</nav>
+						
 					</div>
 				</div>
 			</div>
