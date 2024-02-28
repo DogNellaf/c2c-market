@@ -8,16 +8,8 @@
 				<div class="col-lg-6 align-self-center">
 					<div class="header-text">
 						<h6>С2С-площадка торговли 3D моделями</h6>
-						<h2>Создавай, Продавай, Используй лучшие 3D модели.</h2>
-						<p>Liberty NFT Market is a really cool and professional design for your NFT websites. This HTML CSS template is based on Bootstrap v5 and it is designed for NFT related web portals. Liberty can be freely downloaded from TemplateMo's free css templates.</p>
-						<div class="buttons">
-							<div class="border-button">
-								<a href="">Посмотреть лучшие 3D модели</a>
-							</div>
-							<div class="main-button">
-								<a href="" target="_blank">Button 2</a>
-							</div>
-						</div>
+						<h2>Создавай, Продавай, Используй лучшие 3D модели</h2>
+						<p>У нас представлен широкий выбор качественных и уникальных 3D моделей для различных целей: от дизайна интерьеров и архитектуры до создания игр и анимации. На нашей платформе вы сможете как продавать свои собственные 3D модели, так и приобретать работы других талантливых дизайнеров. Присоединяйтесь к нашему сообществу и воплотите в жизнь свои креативные идеи с помощью качественных 3D моделей от лучших специалистов!</p>
 					</div>
 				</div>
 				<div class="col-lg-5 offset-lg-1">
