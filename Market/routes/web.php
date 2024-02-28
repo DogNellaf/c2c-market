@@ -17,6 +17,8 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', [MarketController::class, 'index'])->name('index');
 
+Route::get('/ads', [MarketController::class, 'ads'])->name('ads');
+
 Auth::routes();
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');

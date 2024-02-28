@@ -8,10 +8,18 @@ use App\Models\Ad;
 
 class MarketController extends Controller
 {
-    public function index() {
-		$context = ['ads' => Ad::latest()->get()];
-		return view('index', $context);
+	public static function __get_popular_ads() {
+		return ['ads' => Ad::latest()->get()];
 	}
+
+    public function index() {
+		return view('index', self::__get_popular_ads());
+	}
+
+	public function ads() {
+		return view('ads', self::__get_popular_ads());
+	}
+
 	public function detail(Ad $ad) {
 		return view('detail', ['ad' => $ad]);
 	}

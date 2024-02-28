@@ -30,12 +30,12 @@
 				<div class="row">
 					<div class="col-12">
 						<nav class="main-nav">
-							<a href="index.html" class="logo">
+							<a href="{{ route('index') }}" class="logo">
 								<img src="{{ asset('images/logo.png') }}" alt="">
 							</a>
 							<ul class="nav">
 							<li><a href="{{ route('index') }}" class="@yield('index_active')">Главная</a></li>
-							<li><a href="">Модели</a></li>
+							<li><a href="{{ route('ads') }}" class="@yield('ads_active')">Модели</a></li>
 							@guest
 									<li><a href="{{ route('register') }}" class="@yield('register_active')">Регистрация</a></li>
 									<li><a href="{{ route('login') }}" class="@yield('login_active')">Вход</a></li>
