@@ -1671,6 +1671,34 @@ Admin Pages Style
 
 /* 
 ---------------------------------------------
+User Pages Style
+--------------------------------------------- 
+*/
+
+.home {
+  height: 40vh;
+  margin-top: 30vh;
+  margin-bottom: 16.5vh;
+}
+
+.home .menu {
+  border-right: 1px solid #d8d8d8;
+}
+
+.home p {
+  color: black;
+}
+
+.home h5 {
+  color: black;
+}
+
+.home .card .card-body form div {
+  margin: 5px;
+}
+
+/* 
+---------------------------------------------
 Details Page Style
 --------------------------------------------- 
 */

@@ -2,24 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/', [MarketController::class, 'index'])->name('index');
-
-Route::get('/ads', [MarketController::class, 'ads'])->name('ads');
+/* Auth routes */
 
 Auth::routes();
+
+/* User dashboard */ 
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::post('/home', [HomeController::class, 'save_data'])->name('home-save');
+
+/* Admin dashboard */
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/ads', [AdminController::class, 'ad_editor'])->name('ad-editor');
@@ -36,4 +31,8 @@ Route::patch('/admin/reviews/{review}', [AdminController::class, 'review_update'
 Route::get('/admin/reviews/edit/{review}', [AdminController::class, 'review_edit'])->name('review-edit');
 Route::post('/admin/reviews', [AdminController::class, 'review_store'])->name('review-store');
 
+/* Main pages */
+
+Route::get('/', [MarketController::class, 'index'])->name('index');
+Route::get('/ads', [MarketController::class, 'ads'])->name('ads');
 Route::get('/{ad}', [MarketController::class, 'detail'])->name('ad-detail');

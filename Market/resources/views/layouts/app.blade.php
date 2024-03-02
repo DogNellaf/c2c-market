@@ -44,7 +44,7 @@
 							@if (Auth::user()->is_admin)
 								<li><a href="{{ route('admin') }}" class="@yield('admin_active')">Панель администратора</a></li>
 							@else
-								<li><a href="" class="@yield('home_active')">Личный кабинет</a></li>
+								<li><a href="{{ route('home') }}" class="@yield('home_active')">Личный кабинет</a></li>
 							@endif
 								<li><a onclick="document.getElementById('logout').click();">Выход</a></li>
 									<form action="{{ route('logout') }}" method="POST">
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 		</header>
-  
+		
 		@yield('content')
   
 		<footer>
