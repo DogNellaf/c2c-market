@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MarketController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 
@@ -37,6 +37,6 @@ Route::post('/admin/reviews', [AdminController::class, 'review_store'])->name('r
 
 /* Main pages */
 
-Route::get('/', [MarketController::class, 'index'])->name('index');
-Route::get('/ads', [MarketController::class, 'ads'])->name('ads');
-Route::get('/{ad}', [MarketController::class, 'detail'])->name('ad-detail');
+Route::get('/', [MainController::class, 'index'])->name('index');
+Route::get('/ads', [MainController::class, 'ads'])->name('ads');
+Route::get('/{ad}', [MainController::class, 'detail'])->name('ad-detail');

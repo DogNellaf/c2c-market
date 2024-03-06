@@ -15,14 +15,22 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    // GET account info
+    /**
+     * Show user dashboard page with account info card.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function index()
     {
         $user = Auth::user();
         return view('home/index', ['user' => $user]);
     }
 
-    // GET my models card
+    /**
+     * Show user dashboard page with user's own models.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function my_models()
     {
         throw new NotFoundHttpException("Страница не существует");
@@ -31,7 +39,11 @@ class HomeController extends Controller
         // return view('home/own-ads', ['user' => $user, 'ads' => $ads]);
     }
 
-    // GET bought models card
+    /**
+     * Show user dashboard page with account user's bought models.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function bought_models()
     {
         throw new NotFoundHttpException("Страница не существует");
@@ -41,7 +53,11 @@ class HomeController extends Controller
         // return view('home/bought-ads', ['user' => $user, 'ads' => $ads]);
     }
 
-    // GET reviews card
+    /**
+     * Show user dashboard page with user's reviews.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function reviews()
     {
         throw new NotFoundHttpException("Страница не существует");
@@ -51,7 +67,11 @@ class HomeController extends Controller
         // return view('home/reviews', ['user' => $user, 'ads' => $ads]);
     }
 
-    // GET stats card
+    /**
+     * Show user dashboard page with user sell stats.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function stats()
     {
         throw new NotFoundHttpException("Страница не существует");
@@ -61,7 +81,12 @@ class HomeController extends Controller
         // return view('home/stats', ['user' => $user, 'ads' => $ads]);
     }
 
-    // POST saving account data
+    /**
+     * POST Save user data and redirect to account info card.
+     *
+     * @param \Illuminate\Http\Request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function save_data(Request $request) {
         $user = Auth::user();
         $validated = $request->validate([
@@ -114,6 +139,6 @@ class HomeController extends Controller
         }
 
         $user->save();
-        return view('home', ['user' => $user]);
+        return redirect()->route('home');
     }
 }

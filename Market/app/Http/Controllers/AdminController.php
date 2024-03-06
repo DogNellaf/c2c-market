@@ -18,12 +18,14 @@ class AdminController extends Controller
 		'video_link' => 'nullable|max:255', 
 		'model_link' => 'required|max:255'
 	];
+
     private const REVIEW_VALIDATOR = [
 		'title' => 'required|max:255',
 		'text' => 'required', 
 		'is_recommended' => 'required|boolean', 
 		'rate' => 'required|integer'
 	];
+
 	/**
      * Create a new controller instance.
      *
@@ -35,7 +37,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * [GET] Show the administrator dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -47,6 +49,12 @@ class AdminController extends Controller
         }
 		return view('admin');
 	}
+
+    /**
+     * [GET] Show the Ad editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function ad_editor() {
 		$user = Auth::user();
 
@@ -56,6 +64,12 @@ class AdminController extends Controller
 		$ads = Ad::paginate(10);
 		return view('ad-editor', compact('ads'));
 	}
+
+    /**
+     * [GET] Show the Ad create page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function ad_create() {
 		$user = Auth::user();
 
@@ -64,12 +78,19 @@ class AdminController extends Controller
         }
 		return view('ad-create');
 	}
+
+    /**
+     * [POST] Validate and save Ad to Database and redirect to Ad editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function ad_store(Request $request) {
 		$user = Auth::user();
 
         if ($user->is_admin == 0) {
             return abort('403');
         }
+
 		$validated = $request->validate(self::AD_VALIDATOR);
 		Ad::create([
 			'title' => $validated['title'],
@@ -81,6 +102,12 @@ class AdminController extends Controller
 			]);
 		return redirect()->route('ad-editor');
 	}
+
+    /**
+     * [DELETE] Delete Ad from Database and redirect to Ad editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function ad_delete(Request $request, Ad $ad) {
 		$user = Auth::user();
 
@@ -90,6 +117,12 @@ class AdminController extends Controller
 		$ad->delete();
 		return redirect()->route('ad-editor');
 	}
+
+    /**
+     * [GET] Show Ad edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function ad_edit(Ad $ad) {
 		$user = Auth::user();
 
@@ -99,6 +132,12 @@ class AdminController extends Controller
 		return view('ad-edit', ['ad' => $ad]);
 	}
 
+
+    /**
+     * [UPDATE] Save new version of Ad to database and redirect to Ad edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function ad_update(Request $request, Ad $ad) {
 		$user = Auth::user();
 
@@ -116,6 +155,11 @@ class AdminController extends Controller
 	  return redirect()->route('ad-editor');
 	}
 	
+	/**
+     * [GET] Show Review edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function review_editor() {
 		$user = Auth::user();
 
@@ -125,6 +169,12 @@ class AdminController extends Controller
 		$reviews = Review::paginate(10);
 		return view('review-editor', compact('reviews'));
 	}
+
+    /**
+     * [GET] Show Review create page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function review_create() {
 		$user = Auth::user();
 
@@ -133,6 +183,12 @@ class AdminController extends Controller
         }
 		return view('review-create');
 	}
+
+	/**
+     * [POST] Save Review to database and redirect to Review editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function review_store(Request $request) {
 		$user = Auth::user();
 
@@ -149,6 +205,12 @@ class AdminController extends Controller
 			]);
 		return redirect()->route('review-editor');
 	}
+
+    /**
+     * [DELETE] Delete Review from database and redirect to review editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function review_delete(Request $request, Review $review) {
 		$user = Auth::user();
 
@@ -158,6 +220,12 @@ class AdminController extends Controller
 		$review->delete();
 		return redirect()->route('review-editor');
 	}
+
+    /**
+     * [GET] Show Review edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function review_edit(Review $review) {
 		$user = Auth::user();
 
@@ -167,6 +235,11 @@ class AdminController extends Controller
 		return view('review-edit', ['review' => $review]);
 	}
 
+	/**
+     * [UPDATE] Save new Review version to database and redirect to review-editor.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
 	public function review_update(Request $request, Review $review) {
 		$user = Auth::user();
 
