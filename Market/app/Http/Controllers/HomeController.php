@@ -10,13 +10,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class HomeController extends Controller
 {
 
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
     /**
-     * Show user dashboard page with account info card.
+     * [GET] Show user dashboard page with account info card.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -27,20 +32,21 @@ class HomeController extends Controller
     }
 
     /**
-     * Show user dashboard page with user's own models.
+     * [GET] Show user dashboard page with user's own models.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function my_models()
+    public function own_ads()
     {
-        throw new NotFoundHttpException("Страница не существует");
-        // $user = Auth::user();
-        // $ads = $user->ads();
-        // return view('home/own-ads', ['user' => $user, 'ads' => $ads]);
+        $user = Auth::user();
+        return view('home/own-ads', [
+            'user' => $user, 
+            'ads' => $user->ads()
+        ]);
     }
 
     /**
-     * Show user dashboard page with account user's bought models.
+     * [GET] Show user dashboard page with account user's bought models.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -54,7 +60,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show user dashboard page with user's reviews.
+     * [GET] Show user dashboard page with user's reviews.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -68,7 +74,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show user dashboard page with user sell stats.
+     * [GET] Show user dashboard page with user sell stats.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -82,7 +88,7 @@ class HomeController extends Controller
     }
 
     /**
-     * POST Save user data and redirect to account info card.
+     * [POST] Save user data and redirect to account info card.
      *
      * @param \Illuminate\Http\Request
      * @return \Illuminate\Http\RedirectResponse

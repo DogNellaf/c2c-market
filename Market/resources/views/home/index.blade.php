@@ -1,5 +1,6 @@
 @extends('layouts.home')
 @section('title', 'Личный кабинет')
+@section('home-index_active', 'active')
 @section('card')
     <form method="POST" action="{{ route('home-save') }}" enctype="multipart/form-data">
         @csrf

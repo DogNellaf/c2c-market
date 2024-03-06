@@ -6,19 +6,11 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\Ad;
 use App\Models\Review;
+use App\Models\Ad;
 
 class AdminController extends Controller
 {
-    private const AD_VALIDATOR = [
-		'title' => 'required|max:255',
-		'description' => 'required', 
-		'price' => 'required', 
-		'video_link' => 'nullable|max:255', 
-		'model_link' => 'required|max:255'
-	];
-
     private const REVIEW_VALIDATOR = [
 		'title' => 'required|max:255',
 		'text' => 'required', 
@@ -47,7 +39,7 @@ class AdminController extends Controller
         if ($user->is_admin == 0) {
             return abort('403');
         }
-		return view('admin');
+		return view('admin/index');
 	}
 
     /**
@@ -62,99 +54,9 @@ class AdminController extends Controller
             return abort('403');
         }
 		$ads = Ad::paginate(10);
-		return view('ad-editor', compact('ads'));
+		return view('ad/editor', compact('ads'));
 	}
 
-    /**
-     * [GET] Show the Ad create page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function ad_create() {
-		$user = Auth::user();
-
-        if ($user->is_admin == 0) {
-            return abort('403');
-        }
-		return view('ad-create');
-	}
-
-    /**
-     * [POST] Validate and save Ad to Database and redirect to Ad editor page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function ad_store(Request $request) {
-		$user = Auth::user();
-
-        if ($user->is_admin == 0) {
-            return abort('403');
-        }
-
-		$validated = $request->validate(self::AD_VALIDATOR);
-		Ad::create([
-			'title' => $validated['title'],
-			'description' => $validated['description'],
-			'price' => $validated['price'],
-			'video_link' => $validated['video_link'],
-			'model_link' => $validated['model_link'],
-			'user_id' => $user->id
-			]);
-		return redirect()->route('ad-editor');
-	}
-
-    /**
-     * [DELETE] Delete Ad from Database and redirect to Ad editor page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function ad_delete(Request $request, Ad $ad) {
-		$user = Auth::user();
-
-        if ($user->is_admin == 0) {
-            return abort('403');
-        }
-		$ad->delete();
-		return redirect()->route('ad-editor');
-	}
-
-    /**
-     * [GET] Show Ad edit page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function ad_edit(Ad $ad) {
-		$user = Auth::user();
-
-        if ($user->is_admin == 0) {
-            return abort('403');
-        }
-		return view('ad-edit', ['ad' => $ad]);
-	}
-
-
-    /**
-     * [UPDATE] Save new version of Ad to database and redirect to Ad edit page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function ad_update(Request $request, Ad $ad) {
-		$user = Auth::user();
-
-        if ($user->is_admin == 0) {
-            return abort('403');
-        }
-		$validated = $request->validate(self::AD_VALIDATOR);
-		$ad->fill(['title' => $validated['title'],
-				   'description' => $validated['description'],
-				   'price' => $validated['price'],
-				   'video_link' => $validated['video_link'],
-				   'model_link' => $validated['model_link'],
-				   'status' => $ad->status]);
-	  $ad->save();
-	  return redirect()->route('ad-editor');
-	}
-	
 	/**
      * [GET] Show Review edit page.
      *
@@ -167,7 +69,7 @@ class AdminController extends Controller
             return abort('403');
         }
 		$reviews = Review::paginate(10);
-		return view('review-editor', compact('reviews'));
+		return view('review/editor', compact('reviews'));
 	}
 
     /**
@@ -181,7 +83,7 @@ class AdminController extends Controller
         if ($user->is_admin == 0) {
             return abort('403');
         }
-		return view('review-create');
+		return view('review/create');
 	}
 
 	/**
@@ -232,11 +134,11 @@ class AdminController extends Controller
         if ($user->is_admin == 0) {
             return abort('403');
         }
-		return view('review-edit', ['review' => $review]);
+		return view('review/edit', ['review' => $review]);
 	}
 
 	/**
-     * [UPDATE] Save new Review version to database and redirect to review-editor.
+     * [PATCH] Save new Review version to database and redirect to review-editor.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
