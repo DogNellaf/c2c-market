@@ -1,9 +1,0 @@
-@extends('layouts.app')
-@section('title', 'Информация о модели')
-@section('content')
-	<h1>{{$ad->title}}</h1>
-	<p>{{$ad->description}}</p>
-	<p>{{$ad->price}}</p>
-	<p>{{$ad->created}}</p>
-	<p>{{$ad->event_id}}</p>
-@endsection('content')

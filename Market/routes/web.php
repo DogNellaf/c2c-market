@@ -13,6 +13,10 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::post('/home', [HomeController::class, 'save_data'])->name('home-save');
+Route::get('/home/models/own', [HomeController::class, 'own_models'])->name('home-own');
+Route::get('/home/models/bought', [HomeController::class, 'bought_models'])->name('home-bought');
+Route::get('/home/reviews', [HomeController::class, 'reviews'])->name('home-reviews');
+Route::get('/home/stat', [HomeController::class, 'stats'])->name('home-stats');
 
 /* Admin dashboard */
 
