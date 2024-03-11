@@ -1676,9 +1676,9 @@ User Pages Style
 */
 
 .home {
-  height: 40vh;
+  /* height: 40vh; */
   margin-top: 30vh;
-  margin-bottom: 16.5vh;
+  /* margin-bottom: 16.5vh; */
 }
 
 .home .menu {
@@ -1695,6 +1695,19 @@ User Pages Style
 
 .home .card .card-body form div {
   margin: 5px;
+}
+
+.home .own-ads {
+  margin-top: 5vh;
+}
+
+.home .btn {
+  width: 100%;
+  color: white !important;
+}
+
+.home .own-ads .detail {
+  margin-top: 5%;
 }
 
 /* 

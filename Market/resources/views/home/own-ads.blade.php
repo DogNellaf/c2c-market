@@ -3,9 +3,9 @@
 @section('home-own_active', 'active')
 @section('card')
     <div class="row">
-        <div class="col-8"></div>
+        <div class="col-9"></div>
         <div class="col text-right">
-            <a class="btn btn-info" href="{{ route('ad-create') }}">Добавить модель</a>
+            <a class="btn btn-primary create" href="{{ route('ad-create') }}">Создать</a>
         </div>
     </div>
     @if ($ads->count() == 0)
@@ -16,9 +16,11 @@
         </div>
     @else
         @foreach ($ads as $ad)
-            <div class="row">
+            <div class="row own-ads">
                 <div class="col">
-                    <h4>{{$ad->title}}</h4>
+                    <span class="bid">
+                        Название<br><strong>{{$ad->title}}</strong>
+                    </span>
                 </div>
                 <div class="col">
                     <span class="bid">
@@ -31,7 +33,7 @@
                     </span>
                 </div>
                 <div class="col">
-                    <a href="{{ route('ad-detail', ['ad' => $ad]) }}">Подробнее</a>
+                    <a class="btn btn-info detail" href="{{ route('ad-detail', ['ad' => $ad]) }}">Подробнее</a>
                 </div>
             </div>  
         @endforeach
