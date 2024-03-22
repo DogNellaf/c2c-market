@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 			$table->foreignId('ad_id')->constrained()->onDelete('cascade');
 			$table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('price');
 			$table->enum('status', array('Ждёт оплаты', 'Оплачен', 'Отменён'))-> default('Ждёт оплаты');
             $table->timestamps();
         });
