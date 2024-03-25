@@ -1626,6 +1626,10 @@ Auth Pages Style
   margin-bottom: 16.5vh;
 }
 
+.login-form {
+  margin-top: 79.33px;
+}
+
 .logout {
   border: none;
   background: none;

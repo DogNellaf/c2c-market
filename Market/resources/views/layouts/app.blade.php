@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
-		<link rel="stylesheet" href="{{ asset('css/templatemo-liberty-market.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/owl.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/roboto.css') }}">
