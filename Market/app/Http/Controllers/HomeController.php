@@ -20,6 +20,16 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    protected function check_auth_user() {
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(403);
+        }
+
+        return $user;
+    }
+
     /**
      * [GET] Show user dashboard page with account info card.
      *
@@ -27,12 +37,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            abort(403);
-        }
-
+        $user = self::check_auth_user();
         return view('home/index', ['user' => $user]);
     }
 
@@ -43,7 +48,7 @@ class HomeController extends Controller
      */
     public function own_ads()
     {
-        $user = Auth::user();
+        $user = self::check_auth_user();
         return view('home/ads', [
             'user' => $user, 
             'ads' => $user->ads()->get()
@@ -57,6 +62,7 @@ class HomeController extends Controller
      */
     public function bought_models()
     {
+        $user = self::check_auth_user();
         throw new NotFoundHttpException("Страница не существует");
         // TODO
         // $user = Auth::user();
@@ -71,6 +77,7 @@ class HomeController extends Controller
      */
     public function reviews()
     {
+        $user = self::check_auth_user();
         throw new NotFoundHttpException("Страница не существует");
         // TODO
         // $user = Auth::user();
@@ -85,6 +92,7 @@ class HomeController extends Controller
      */
     public function stats()
     {
+        $user = self::check_auth_user();
         throw new NotFoundHttpException("Страница не существует");
         // TODO
         // $user = Auth::user();
@@ -99,7 +107,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function save_data(Request $request) {
-        $user = Auth::user();
+        $user = self::check_auth_user();
         $validated = $request->validate([
             'name' => [
                 'required', 
