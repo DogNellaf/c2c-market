@@ -28,6 +28,11 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            abort(403);
+        }
+
         return view('home/index', ['user' => $user]);
     }
 
