@@ -30,21 +30,21 @@
 				<div class="row">
 					<div class="col-12">
 						<nav class="main-nav">
-							<a href="{{ route('index') }}" class="logo">
+							<a href="{{ route('main.index') }}" class="logo">
 								<img src="{{ asset('images/logo.png') }}" alt="">
 							</a>
 							<ul class="nav">
-							<li><a href="{{ route('index') }}" class="@yield('index_active')">Главная</a></li>
-							<li><a href="{{ route('ads') }}" class="@yield('ads_active')">Модели</a></li>
+							<li><a href="{{ route('main.index') }}" class="@yield('index_active')">Главная</a></li>
+							<li><a href="{{ route('main.ads.list') }}" class="@yield('ads_active')">Модели</a></li>
 							@guest
 									<li><a href="{{ route('register') }}" class="@yield('register_active')">Регистрация</a></li>
 									<li><a href="{{ route('login') }}" class="@yield('login_active')">Вход</a></li>
 							@endguest
 							@auth
 							@if (Auth::user()->is_admin)
-								<li><a href="{{ route('admin') }}" class="@yield('admin_active')">Панель администратора</a></li>
+								<li><a href="{{ route('admin.index') }}" class="@yield('admin_active')">Панель администратора</a></li>
 							@else
-								<li><a href="{{ route('home') }}" class="@yield('home_active')">Личный кабинет</a></li>
+								<li><a href="{{ route('home.index') }}" class="@yield('home_active')">Личный кабинет</a></li>
 							@endif
 								<li><a onclick="document.getElementById('logout').click();">Выход</a></li>
 									<form action="{{ route('logout') }}" method="POST">

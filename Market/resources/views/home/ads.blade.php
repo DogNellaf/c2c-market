@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-9"></div>
         <div class="col text-right">
-            <a class="btn btn-primary create" href="{{ route('ad-create') }}">Создать</a>
+            <a class="btn btn-primary create" href="{{ route('home.ads.create.page') }}">Создать</a>
         </div>
     </div>
     @if ($ads->count() == 0)
@@ -29,11 +29,11 @@
                 </div>
                 <div class="col">
                     <span class="ends">
-                        Средняя оценка<br><strong>4.5</strong>
+                        Средняя оценка<br><strong>{{ '-' }}</strong>
                     </span>
                 </div>
                 <div class="col">
-                    <a class="btn btn-info detail" href="{{ route('ad-detail', ['ad' => $ad]) }}">Подробнее</a>
+                    <a class="btn btn-info detail" href="{{ route('home.ads.edit.page', ['ad' => $ad]) }}">Подробнее</a>
                 </div>
             </div>  
         @endforeach

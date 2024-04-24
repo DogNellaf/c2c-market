@@ -40,7 +40,7 @@ class AdsController extends Controller
         // if ($user->is_admin == 0) {
         //     return abort('403');
         // }
-		return view('ad/create', ['user' => $user]);
+		return view('home/ad/create', ['user' => $user]);
 	}
 
     /**
@@ -49,12 +49,12 @@ class AdsController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function edit_page(Ad $ad) {
-		// $user = Auth::user();
+		$user = Auth::user();
 
         // if ($user->is_admin == 0) {
         //     return abort('403');
         // }
-		return view('ad/edit', ['ad' => $ad]);
+		return view('home/ads/edit', ['ad' => $ad, 'user' => $user]);
 	}
 
     /**
@@ -78,7 +78,7 @@ class AdsController extends Controller
 			'model_link' => $validated['model_link'],
 			'user_id' => $user->id
 			]);
-		return redirect()->route('home-own');
+		return redirect()->route('home.ads.own');
 	}
 
     /**
@@ -102,7 +102,7 @@ class AdsController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function update(Request $request, Ad $ad) {
+	public function edit_method(Request $request, Ad $ad) {
 		// $user = Auth::user();
 
         // if ($user->is_admin == 0) {
@@ -116,6 +116,6 @@ class AdsController extends Controller
 				   'model_link' => $validated['model_link'],
 				   'status' => $ad->status]);
         $ad->save();
-        return redirect()->route('ad-editor');
+        return redirect()->route('home.ads.own');
 	}
 }

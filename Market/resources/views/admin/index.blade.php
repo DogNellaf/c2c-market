@@ -9,10 +9,10 @@
                 <div class="card">
                     <div class="card-body justify-content-center">
 						<div class='col-3'>
-							<a href="{{ route('ad-editor') }}" class="button">Модели</a>
+							<a href="{{ route('admin.ads.editor') }}" class="button">Модели</a>
 						</div>
 						<div class='col-3'>
-							<a href="{{ route('review-editor') }}" class="button">Отзывы</a>
+							<a href="{{ route('admin.reviews.editor') }}" class="button">Отзывы</a>
 						</div>						
 					</div>
                 </div>

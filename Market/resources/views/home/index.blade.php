@@ -2,7 +2,7 @@
 @section('title', 'Личный кабинет')
 @section('home-index_active', 'active')
 @section('card')
-    <form method="POST" action="{{ route('home-save') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('home.index.save') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group row">
             <div class="col-sm-2">

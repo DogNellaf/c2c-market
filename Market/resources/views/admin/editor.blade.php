@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Редактор объявления')
 @section('content')
-<a href="{{ route('ad-create')}}">Создать модель</a>
+<a href="{{ route('admin.ads.create.page')}}">Создать модель</a>
 <table class="table table-striped table-borderless">
 	<thead>
 		<tr>
@@ -18,10 +18,10 @@
 			<th>{{$ad->price}}</th>
 			<th>{{$ad->user->name}}</th>
 			<td>
-				<a href="{{ route('ad-edit', ['ad' => $ad]) }}">Редактировать</a>
+				<a href="{{ route('admin.ads.edit.page', ['ad' => $ad]) }}">Редактировать</a>
 			</td>
 			<td>
-				<form action="{{ route('ad-delete', ['ad' => $ad]) }}" method="post">
+				<form action="{{ route('admin.ads.delete.method', ['ad' => $ad]) }}" method="post">
 					@csrf
 					@method('DELETE')
 					<input type="submit" value="Удалить">

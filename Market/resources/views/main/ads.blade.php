@@ -8,7 +8,10 @@
         <div class="col-lg-12">
           <h6>С2С Market Экземпляр</h6>
           <h2>Модели уже на площадке</h2>
-          <span><a href="{{ route('index') }}">Главная</a> > <a href="{{ route('ads') }}">Модели</a></span>
+          <span>
+            <a href="{{ route('main.index') }}">Главная</a> > 
+            <a href="{{ route('main.ads.list') }}">Модели</a>
+          </span>
         </div>
       </div>
     </div>
