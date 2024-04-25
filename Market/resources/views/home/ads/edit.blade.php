@@ -36,10 +36,6 @@
 		<label for="video_link" class="form-label">Видео</label>
 		<input name="video_link" id="video_link" class="form-control  @error("video_link") is-invalid @enderror" type="url" placeholder="https://example.com" pattern="https://.*" value="{{old('video_link', $ad->video_link)}}"/>
 	</div>
-	<div class="mb-3">
-		<label for="model_link" class="form-label">Модель</label>
-		<input readonly type="text" class="form-control @error("model_link") is-invalid @enderror" id="model_link" name="model_link" value="{{$ad->model_link}}">
-	</div>
 	<input type="submit" class="btn btn-primary" value="Сохранить">
 </form>
 @endsection

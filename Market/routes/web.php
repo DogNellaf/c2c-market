@@ -20,11 +20,13 @@ Route::get('/home/models/bought', [HomeController::class, 'bought_ads'])->name('
 Route::get('/home/reviews', [HomeController::class, 'reviews'])->name('home.reviews');
 Route::get('/home/stat', [HomeController::class, 'stats'])->name('home.stats');
 
-Route::get('/home/models/own/create', [AdsController::class, 'create_page'])->name('home.ads.create.page');
-Route::post('/home/models/own/create', [AdsController::class, 'create'])->name('home.ads.create.method');
+Route::get('/home/models/own/create', [HomeController::class, 'ads_create_page'])->name('home.ads.create.page');
+Route::post('/home/models/own/create', [HomeController::class, 'ads_create_method'])->name('home.ads.create.method');
 
-Route::get('/home/models/own/{ad}/edit', [AdsController::class, 'edit_page'])->name('home.ads.edit.page');
-Route::patch('/home/models/own/{ad}/edit', [AdsController::class, 'edit_method'])->name('home.ads.edit.method');
+Route::get('/home/models/own/{ad}/edit', [HomeController::class, 'ads_edit_page'])->name('home.ads.edit.page');
+Route::patch('/home/models/own/{ad}/edit', [HomeController::class, 'ads_edit_method'])->name('home.ads.edit.method');
+Route::patch('/home/models/own/{ad}/hide', [HomeController::class, 'ads_hide_method'])->name('home.ads.hide.method');
+Route::patch('/home/models/own/{ad}/show', [HomeController::class, 'ads_show_method'])->name('home.ads.show.method');
 
 /* Admin dashboard */
 

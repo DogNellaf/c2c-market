@@ -33,7 +33,26 @@
                     </span>
                 </div>
                 <div class="col">
-                    <a class="btn btn-info detail" href="{{ route('home.ads.edit.page', ['ad' => $ad]) }}">Подробнее</a>
+                    <a class="btn btn-info" href="{{ route('home.ads.edit.page', ['ad' => $ad]) }}">Подробнее</a>
+                </div>
+                <div class="col">
+                    @if ($ad->status = "Created")
+                        Ожидайте подтверждения администратором
+                    @elseif ($ad->status = "Rejected")
+                        Ваша модель была отклонена, пожалуйста, отредактируйте в соответствии с <a href="#">требованиями</a>.
+                    @elseif ($ad->status = "Hidden")
+                        <form method="POST" action="home.ads.show.method">
+                            @method('patch')
+                            <input type="number" name="id" hidden value="{{ $ad->id }}"/>
+                            <input class="btn btn-primary" type="submit" value="Отобразить"/>
+                        </form>
+                    @elseif ($ad->status = "Showed")
+                        <form method="POST" action="home.ads.hide.method">
+                            @method('patch')
+                            <input type="number" name="id" hidden value="{{ $ad->id }}"/>
+                            <input class="btn btn-warning" type="submit" value="Скрыть"/>
+                        </form>
+                    @endif                    
                 </div>
             </div>  
         @endforeach

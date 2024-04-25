@@ -17,7 +17,8 @@ class Ad extends Model
 						   'video_link', 
 						   'model_link', 
 						   'status', 
-						   'user_id'
+						   'user_id',
+						   'photo_link'
 						   ];
 	public function user() {
 		return $this->belongsTo(User::class);

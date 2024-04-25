@@ -18,7 +18,8 @@ return new class extends Migration
 			$table->float('price');
 			$table->string('video_link', 255)->nullable();
 			$table->string('model_link', 255);
-			$table->enum('status', array('Создан', 'Отклонён', 'Скрыт', 'Доступен'))-> default('Создан');
+            $table->string('photo_link', 255);
+			$table->enum('status', array('Created', 'Rejected', 'Hidden', 'Showed'))->default('Created');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 			$table->timestamps();
         });

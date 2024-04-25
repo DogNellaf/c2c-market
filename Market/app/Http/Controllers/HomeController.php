@@ -7,8 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use App\Models\Ad;
+
 class HomeController extends Controller
 {
+
+    private const AD_VALIDATOR = [
+		'title' => 'required|max:255',
+		'description' => 'required', 
+		'price' => 'required', 
+		'video_link' => 'nullable|max:255', 
+		'model' => 'required|max:4096',
+        'photo' => 'required|max:1024',
+	];
 
     /**
      * Create a new controller instance.
@@ -160,4 +171,148 @@ class HomeController extends Controller
         $user->save();
         return redirect()->route('home');
     }
+
+
+    /**
+     * [GET] Show the Ad create page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function ads_create_page() {
+		$user = Auth::user();
+
+        // if ($user->is_admin == 0) {
+        //     return abort('403');
+        // }
+		return view('home/ads/create', ['user' => $user]);
+	}
+
+    /**
+     * [POST] Validate and save Ad to Database and redirect to Ad editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function ads_create_method(Request $request) {
+		$user = Auth::user();
+
+        // if ($user->is_admin == 0) {
+        //     return abort('403');
+        // }
+
+		$validated = $request->validate(self::AD_VALIDATOR);
+
+        // save files
+   
+        $model = $request->file('model');
+        $photo = $request->file('photo');
+
+        $model_name = $model->getClientOriginalName();
+        $photo_name = $photo->getClientOriginalName();
+        
+        $dir = 'storage\\\\'.explode(".", $model_name)[0].'\\\\';
+
+        $model_path = $dir.$model_name;
+        $photo_path = $dir.$photo_name;
+
+        $model->move($dir, $model_path);
+        $photo->move($dir, $photo_path);
+
+        // create ad
+
+        Ad::create([
+			'title' => $validated['title'],
+			'description' => $validated['description'],
+			'price' => $validated['price'],
+			'video_link' => $validated['video_link'],
+			'model_link' => $model_path,
+			'user_id' => $user->id,
+            'photo_link' => $photo_path
+			]);
+
+		return redirect()->route('home.ads.own');
+	}
+
+    /**
+     * [GET] Show Ad edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function ads_edit_page(Ad $ad) {
+		$user = Auth::user();
+
+        // if ($user->is_admin == 0) {
+        //     return abort('403');
+        // }
+		return view('home/ads/edit', ['ad' => $ad, 'user' => $user]);
+	}
+
+    /**
+     * [PATCH] Save new version of Ad to database and redirect to Ad edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function ads_edit_method(Request $request, Ad $ad) {
+		// $user = Auth::user();
+
+        // if ($user->is_admin == 0) {
+        //     return abort('403');
+        // }
+		$validated = $request->validate(self::AD_VALIDATOR);
+		$ad->fill(['title' => $validated['title'],
+				   'description' => $validated['description'],
+				   'price' => $validated['price'],
+				   'video_link' => $validated['video_link'],
+				   'model_link' => $validated['model_link'],
+				   'status' => $ad->status]);
+        $ad->save();
+        return redirect()->route('home.ads.own');
+	}
+
+    /**
+     * [PATCH] Change Ad status to Hidden from owner.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function ads_hide_method(Request $request) {
+		$user = Auth::user();
+
+        $ad = Ad::find($request['id']);
+
+        if ($ad->user_id != $user->id) {
+            return abort('403');
+        }
+
+        if ($ad->status = "Showed") {
+            $ad->status = 'Hidden';
+            return redirect()->route('home.ads.own');
+            
+        }
+        else {
+            return abort('403');
+        }
+	}
+
+    /**
+     * [PATCH] Change Ad status to Showed from owner.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function ads_show_method(Request $request) {
+		$user = Auth::user();
+
+        $ad = Ad::find($request['id']);
+
+        if ($ad->user_id != $user->id) {
+            return abort('403');
+        }
+
+        if ($ad->status = "Hidden") {
+            $ad->status = 'Showed';
+            return redirect()->route('home.ads.own');
+            
+        }
+        else {
+            return abort('403');
+        }
+	}
 }

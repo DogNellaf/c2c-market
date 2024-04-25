@@ -2,7 +2,7 @@
 @section('title', 'Добавить модель')
 @section('home-own_active', 'active')
 @section('card')
-	<form action="{{ route('home.ads.create.method') }}" method="POST">
+	<form action="{{ route('home.ads.create.method') }}" method="POST" enctype="multipart/form-data">
 		@csrf
 		<div class="mb-3">
 			<label for="title" class="form-label">Название</label>
@@ -41,9 +41,18 @@
             @enderror
 		</div>
 		<div class="mb-3">
-			<label for="model_link" class="form-label">Модель</label>
-			<input type="file" class="form-control @error("model_link") is-invalid @enderror" id="model_link" name="model_link" accept=".fbx,.stl,.obj,.dae,.3ds,.iges,.step,.vrml,.x3d,.bland,.amf,.3mf">
-			@error('model_link')
+			<label for="model" class="form-label">Модель</label>
+			<input type="file" class="form-control @error("model") is-invalid @enderror" id="model" name="model" accept=".fbx,.stl,.obj,.dae,.3ds,.iges,.step,.vrml,.x3d,.bland,.amf,.3mf">
+			@error('model')
+				<span class="invalid-feedback" role="alert">
+					<strong>{{ $message }}</strong>
+				</span>
+            @enderror
+		</div>
+		<div class="mb-3">
+			<label for="photo" class="form-label">Фото модели</label>
+			<input type="file" class="form-control @error("photo") is-invalid @enderror" id="photo" name="photo" accept=".png,.jpg,.webp">
+			@error('photo_link')
 				<span class="invalid-feedback" role="alert">
 					<strong>{{ $message }}</strong>
 				</span>
