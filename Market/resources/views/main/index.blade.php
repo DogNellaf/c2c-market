@@ -101,7 +101,7 @@
 										Средняя оценка<br><strong>4.5</strong>
 									</span>
 									<div class="text-button">
-										<a href="{{ route('ad-detail', ['ad' => $ad]) }}">Подробнее</a>
+										<a href="{{ route('main.ads.detail', ['ad' => $ad]) }}">Подробнее</a>
 									</div>
 								</div>
 							</div>

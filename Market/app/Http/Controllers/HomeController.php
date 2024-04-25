@@ -49,7 +49,7 @@ class HomeController extends Controller
     public function own_ads()
     {
         $user = self::check_auth_user();
-        return view('home/ads', [
+        return view('home/ads/index', [
             'user' => $user, 
             'ads' => $user->ads()->get()
         ]);
