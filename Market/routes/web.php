@@ -54,4 +54,6 @@ Route::delete('/reviews/{review}', [AdminController::class, 'review_delete'])->n
 
 Route::get('/', [MainController::class, 'index'])->name('main.index');
 Route::get('/ads', [MainController::class, 'ads'])->name('main.ads.list');
+Route::get('/rules', [MainController::class, 'rules'])->name('main.rules');
+
 Route::get('/{ad}', [MainController::class, 'detail'])->name('main.ads.detail');

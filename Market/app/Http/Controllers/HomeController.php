@@ -12,14 +12,18 @@ use App\Models\Ad;
 class HomeController extends Controller
 {
 
-    private const AD_VALIDATOR = [
-		'title' => 'required|max:255',
-		'description' => 'required', 
-		'price' => 'required', 
-		'video_link' => 'nullable|max:255', 
+    private const AD_EDIT_VALIDATOR = [
+		'title' => ['required', 'max:255', 'min:1'],
+		'description' => ['required', 'min:1'], 
+		'price' => ['required', 'numeric'], 
+		'video_link' => ['nullable', 'max:255']
+	];
+
+    private const AD_CREATE_VALIDATOR = [
 		'model' => 'required|max:4096',
         'photo' => 'required|max:1024',
 	];
+
 
     /**
      * Create a new controller instance.
@@ -71,14 +75,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function bought_models()
+    public function bought_ads()
     {
         $user = self::check_auth_user();
-        throw new NotFoundHttpException("Страница не существует");
-        // TODO
-        // $user = Auth::user();
-        // $ads = $user->ads();
-        // return view('home/bought-ads', ['user' => $user, 'ads' => $ads]);
+        return view('home/ads/bought', [
+                                        'user' => $user, 
+                                        'ads' => $user->bought_ads()]);
     }
 
     /**
@@ -138,7 +140,7 @@ class HomeController extends Controller
                 'nullable', 
                 'string'], 
 
-            'avatar' => ['nullable']
+            'avatar' => ['nullable', 'max:1024']
         ]);
 
         $user->name = $validated['name'];
@@ -169,7 +171,7 @@ class HomeController extends Controller
         }
 
         $user->save();
-        return redirect()->route('home');
+        return redirect()->route('home.index');
     }
 
 
@@ -179,12 +181,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads_create_page() {
-		$user = Auth::user();
-
-        // if ($user->is_admin == 0) {
-        //     return abort('403');
-        // }
-		return view('home/ads/create', ['user' => $user]);
+		return view('home/ads/create', ['user' => self::check_auth_user()]);
 	}
 
     /**
@@ -193,13 +190,10 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads_create_method(Request $request) {
-		$user = Auth::user();
+		$user = self::check_auth_user();
 
-        // if ($user->is_admin == 0) {
-        //     return abort('403');
-        // }
-
-		$validated = $request->validate(self::AD_VALIDATOR);
+        $validated = $request->validate(self::AD_EDIT_VALIDATOR);
+		$request->validate(self::AD_CREATE_VALIDATOR);
 
         // save files
    
@@ -238,12 +232,8 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads_edit_page(Ad $ad) {
-		$user = Auth::user();
-
-        // if ($user->is_admin == 0) {
-        //     return abort('403');
-        // }
-		return view('home/ads/edit', ['ad' => $ad, 'user' => $user]);
+		return view('home/ads/edit', ['ad' => $ad, 
+                                      'user' => self::check_auth_user()]);
 	}
 
     /**
@@ -252,18 +242,17 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads_edit_method(Request $request, Ad $ad) {
-		// $user = Auth::user();
+		$user = self::check_auth_user();
 
-        // if ($user->is_admin == 0) {
-        //     return abort('403');
-        // }
-		$validated = $request->validate(self::AD_VALIDATOR);
+        if ($ad->user_id != $user->id) {
+            return abort('403');
+        }
+
+		$validated = $request->validate(self::AD_EDIT_VALIDATOR);
 		$ad->fill(['title' => $validated['title'],
 				   'description' => $validated['description'],
 				   'price' => $validated['price'],
-				   'video_link' => $validated['video_link'],
-				   'model_link' => $validated['model_link'],
-				   'status' => $ad->status]);
+				   'video_link' => $validated['video_link']]);
         $ad->save();
         return redirect()->route('home.ads.own');
 	}
@@ -273,10 +262,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function ads_hide_method(Request $request) {
+	public function ads_hide_method(Request $request, Ad $ad) {
 		$user = Auth::user();
-
-        $ad = Ad::find($request['id']);
 
         if ($ad->user_id != $user->id) {
             return abort('403');
@@ -284,10 +271,9 @@ class HomeController extends Controller
 
         if ($ad->status = "Showed") {
             $ad->status = 'Hidden';
+            $ad->save();
             return redirect()->route('home.ads.own');
-            
-        }
-        else {
+        } else {
             return abort('403');
         }
 	}
@@ -297,10 +283,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function ads_show_method(Request $request) {
+	public function ads_show_method(Request $request, Ad $ad) {
 		$user = Auth::user();
-
-        $ad = Ad::find($request['id']);
 
         if ($ad->user_id != $user->id) {
             return abort('403');
@@ -308,10 +292,9 @@ class HomeController extends Controller
 
         if ($ad->status = "Hidden") {
             $ad->status = 'Showed';
+            $ad->save();
             return redirect()->route('home.ads.own');
-            
-        }
-        else {
+        } else {
             return abort('403');
         }
 	}

@@ -12,7 +12,7 @@ class MainController extends Controller
 	}
 
     /**
-     * [GET] Show index site page.
+     * [GET] Show index page.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
@@ -21,12 +21,21 @@ class MainController extends Controller
 	}
 
     /**
-     * [GET] Show ADs site page.
+     * [GET] Show ADs list page.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads() {
 		return view('main/ads', self::__get_popular_ads());
+	}
+
+    /**
+     * [GET] Show rules site page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function rules() {
+		return view('main/rules');
 	}
 
     /**

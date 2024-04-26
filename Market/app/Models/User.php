@@ -47,12 +47,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /* owned ads */
 	public function ads() {
 		return $this->hasMany(Ad::class);
 	}
+
+    /* orders to buy models */
 	public function orders() {
 		return $this->hasMany(Order::class);
 	}
+
+    /* bought ads */
+	public function bought_ads() {
+		return $this->hasManyThrough(Order::class, Ad::class);
+	}
+
+    /* owned reviews */
 	public function reviews() {
 		return $this->hasMany(Review::class);
 	}
