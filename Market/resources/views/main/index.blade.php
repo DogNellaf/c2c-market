@@ -90,7 +90,7 @@
 								<div class="right-content">
 									<h4>{{ $ad->title }}</h4>
 									<span class="author">
-										<img src="{{ $ad->user->avatar_url }}" alt="" style="max-width: 50px; border-radius: 50%;">
+										<img src="{{ $ad->avatar }}" alt="" style="max-width: 50px; border-radius: 50%;">
 										<h6>{{ $ad->author }}</h6>
 									</span>
 									<div class="line-dec"></div>

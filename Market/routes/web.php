@@ -56,4 +56,7 @@ Route::get('/', [MainController::class, 'index'])->name('main.index');
 Route::get('/ads', [MainController::class, 'ads'])->name('main.ads.list');
 Route::get('/rules', [MainController::class, 'rules'])->name('main.rules');
 
-Route::get('/{ad}', [MainController::class, 'detail'])->name('main.ads.detail');
+Route::get('/ads/{ad}', [MainController::class, 'detail'])->name('main.ads.detail');
+
+/* Buying ad */
+Route::get('/ads/{ad}/buy', [MainController::class, 'buy'])->name('main.ads.buy');

@@ -9,11 +9,15 @@ class MainController extends Controller
 {
 	// get ads with orderBy avg rating
 	protected static function __get_most_popular_ads() {
-        return Ad::all()
-            ->join('reviews', 'reviews.ad_id', '=', 'ads.id')
-            ->select(DB::raw('avg(reviews.rating) as average, ads.*'))
-            ->groupBy('id')
-            ->orderBy('average', 'desc');
+        $ads = DB::table('ads')
+        ->leftJoin('reviews', 'reviews.ad_id', '=', 'ads.id')
+        ->join('users', 'users.id', '=', 'ads.user_id')
+        ->select(DB::raw("AVG('reviews.rating') as average, ads.id as id"))
+        ->groupBy('ads.id')
+        ->orderBy('average', 'DESC')
+        ->get();
+        $ids = $ads->pluck('id');
+        return Ad::whereIn('id', $ids)->get();
 	}
 
 
@@ -38,6 +42,15 @@ class MainController extends Controller
      */
 	public function ads() {
 		return view('main/ads', self::__get_most_popular_ads()->paginate(10));
+	}
+
+    /**
+     * [GET] Show ADs buy page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function buy(Ad $ad) {
+		return view('main/buy', ['ad' => $ad]);
 	}
 
     /**
