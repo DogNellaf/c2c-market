@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ad;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
@@ -41,7 +42,7 @@ class MainController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads() {
-		return view('main/ads', self::__get_most_popular_ads()->paginate(10));
+		return view('main/ads/list', self::__get_most_popular_ads()->paginate(10));
 	}
 
     /**
@@ -50,7 +51,7 @@ class MainController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function buy(Ad $ad) {
-		return view('main/buy', ['ad' => $ad]);
+		return view('main/ads/buy', ['ad' => $ad]);
 	}
 
     /**
@@ -67,7 +68,17 @@ class MainController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function detail(Ad $ad) {
-		return view('main/detail', ['ad' => $ad]);
+	public function ad_detail(Ad $ad) {
+		return view('main/ads/detail', ['ad' => $ad]);
+	}
+
+
+    /**
+     * [GET] Show User info page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function user_detail(User $user) {
+		return view('main/users/detail', ['user' => $user]);
 	}
 }
