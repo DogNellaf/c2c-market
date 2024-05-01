@@ -85,21 +85,22 @@
 						<div class="col-lg-6 currently-market-item all msc">
 							<div class="item">
 								<div class="left-image">
-									<img src="{{ asset('images/market-01.jpg') }}" alt="" style="border-radius: 20px; min-width: 195px;">
+									<img src="{{ $ad->photo_link }}" alt="" style="border-radius: 20px; min-width: 195px;">
 								</div>
 								<div class="right-content">
-									<h4>{{$ad->title}}</h4>
+									<h4>{{ $ad->title }}</h4>
 									<span class="author">
-										<img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; border-radius: 50%;">
-										<h6>{{$ad->author}}</h6>
+										<img src="{{ $ad->user->avatar_url }}" alt="" style="max-width: 50px; border-radius: 50%;">
+										<h6>{{ $ad->author }}</h6>
 									</span>
 									<div class="line-dec"></div>
 									<span class="bid">
-										Цена<br><strong>{{$ad->price}} Руб.</strong>
+										Цена<br><strong>{{ $ad->price }} Руб.</strong>
 									</span>
-									<span class="ends">
-										Средняя оценка<br><strong>4.5</strong>
-									</span>
+									<!-- <span class="ends">
+										Средняя оценка<br>
+										<strong>{{  $ad->get_average_rating() == -1 ? "-": $ad->get_average_rating() }}</strong>
+									</span> -->
 									<div class="text-button">
 										<a href="{{ route('main.ads.detail', ['ad' => $ad]) }}">Подробнее</a>
 									</div>

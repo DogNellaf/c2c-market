@@ -3,12 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ad;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
-	// get most popular ads (by sells count)
-	protected static function __get_popular_ads() {
-		return ['ads' => Ad::latest()->get()];
+	// get ads with orderBy avg rating
+	protected static function __get_most_popular_ads() {
+        return Ad::all()
+            ->join('reviews', 'reviews.ad_id', '=', 'ads.id')
+            ->select(DB::raw('avg(reviews.rating) as average, ads.*'))
+            ->groupBy('id')
+            ->orderBy('average', 'desc');
+	}
+
+
+	// get 10 most popular ads
+	protected static function __get_ten_most_popular_ads() {
+        return self::__get_most_popular_ads()->limit(10);
 	}
 
     /**
@@ -17,7 +28,7 @@ class MainController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-		return view('main/index', self::__get_popular_ads());
+		return view('main/index', ['ads' => self::__get_most_popular_ads()]);
 	}
 
     /**
@@ -26,7 +37,7 @@ class MainController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads() {
-		return view('main/ads', self::__get_popular_ads());
+		return view('main/ads', self::__get_most_popular_ads()->paginate(10));
 	}
 
     /**
