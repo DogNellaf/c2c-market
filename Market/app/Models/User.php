@@ -58,10 +58,16 @@ class User extends Authenticatable
 		return $this->hasMany(Order::class);
 	}
 
+    /* orders without any reviews from this user */
+	public function orders_without_review() {
+        $ads_ids = $this->reviews()->pluck('ad_id');
+		return $this->orders()->whereNotIn('ad_id', $ads_ids);
+	}
+
     /* bought ads */
-	// public function bought_ads() {
-	// 	return $this->hasManyThrough(Order::class, Ad::class);
-	// }
+	public function bought_ads() {
+		return $this->hasManyThrough(Order::class, Ad::class);
+	}
 
     /* owned reviews */
 	public function reviews() {

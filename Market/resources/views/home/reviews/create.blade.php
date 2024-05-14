@@ -1,55 +1,69 @@
-@extends('layouts.app')
-
-@section('title', 'Добавление отзыва')
-
-@section('content')
-<form action="{{ route('reviews.create.method') }}" method="POST">
-	@csrf
-	<div class="mb-3">
-		<label for="txtTitle" class="form-label">Название</label>
-		<input name="title" id="txtTitle" class="form-control">
-	</div>
-	<div class="mb-3">
-		<label for="txtText" class="form-label">Текст</label>
-		<textarea name="text" id="txtText" class="form-control" row="3"></textarea>
-	</div>
-	<div class="mb-3">
-		<input type="checkbox" name="is_recommended" id="txtRecommended" checked class="form-check-input"/>
-		<label for="txtRecommended" class="form-check-label">Рекомендуется</label>
-	</div>
-	<div class="mb-3">
-		<label for="txtRate" class="form-label">Оценка</label>
-	</div>
-	<div class="mb-3">
-		<input class="form-check-input" type="radio" name="rate" id="rate" checked value="5">
-		<label class="form-check-label" for="rate">
-			5
-		</label>
-	</div>
-	<div class="mb-3">
-		<input class="form-check-input" type="radio" name="rate" id="rate" value="4">
-		<label class="form-check-label" for="rate">
-			4
-		</label>
-	</div>
-	<div class="mb-3">
-		<input class="form-check-input" type="radio" name="rate" id="rate" value="3">
-		<label class="form-check-label" for="rate">
-			3
-		</label>
-	</div>
-	<div class="mb-3">
-		<input class="form-check-input" type="radio" name="rate" id="rate" value="2">
-		<label class="form-check-label" for="rate">
-			2
-		</label>
-	</div>
-	<div class="mb-3">
-		<input class="form-check-input" type="radio" name="rate" id="rate" value="1">
-		<label class="form-check-label" for="rate">
-			1
-		</label>
-	</div>
-	<input type="submit" class="btn btn-primary" value="Добавить">
-</form>
-@endsection('content')
+@extends('layouts.home')
+@section('title', 'Добавить отзыв')
+@section('home-reviews', 'active')
+@section('card')
+	@if ($orders->count() == 0)
+		<div class="row">
+            <div class="col">
+                Нет модели, на которую можно было бы оставить отзыв
+            </div>
+        </div>
+	@else
+		<form action="{{ route('home.reviews.create.method') }}" method="POST" enctype="multipart/form-data">
+			@csrf
+			<div class="mb-3">
+				<label for="ad_id" class="form-label">Модель</label>
+				<select class="form-select" name="ad_id">
+					@foreach ($orders as $order)
+						<option value="{{ $order->ad_id }}">{{ $order->ad->title }}</option>
+					@endforeach
+				</select>
+				@error('ad_id')
+					<span class="invalid-feedback" role="alert">
+						<strong>{{ $message }}</strong>
+					</span>
+				@enderror
+			</div>
+			<div class="mb-3">
+				<label for="title" class="form-label">Заголовок</label>
+				<input name="title" id="title" class="form-control @error("title") is-invalid @enderror" type="text" value="{{old('title')}}"/>
+				@error('title')
+					<span class="invalid-feedback" role="alert">
+						<strong>{{ $message }}</strong>
+					</span>
+				@enderror
+			</div>
+			<div class="mb-3">
+				<label for="text" class="form-label">Текст</label>
+				<textarea name="text" id="text" class="form-control @error("text") is-invalid @enderror" row="3">{{old('text')}}</textarea>
+				@error('text')
+					<span class="invalid-feedback" role="alert">
+						<strong>{{ $message }}</strong>
+					</span>
+				@enderror
+			</div>
+			<div class="mb-3">
+				<label for="is_recommended" class="form-label">Рекомендую ли я?</label>
+				<select name="is_recommended" id="is_recommended" class="form-select @error("is_recommended") is-invalid @enderror">
+					<option value="True">Да</option>
+					<option value="False">Нет</option>
+				</select>
+				@error('is_recommended')
+					<span class="invalid-feedback" role="alert">
+						<strong>{{ $message }}</strong>
+					</span>
+				@enderror
+			</div>
+			<div class="mb-3">
+				<label for="rate" class="form-label">Оценка</label>
+				<input name="rate" id="rate" class="form-control  @error("rate") is-invalid @enderror" type="number"  min="1" max="5" value="{{old('rate', 5)}}"/>
+				@error('rate')
+					<span class="invalid-feedback" role="alert">
+						<strong>{{ $message }}</strong>
+					</span>
+				@enderror
+			</div>
+			<input type="submit" class="btn btn-primary" value="Добавить">
+		</form>
+	@endif
+@endsection

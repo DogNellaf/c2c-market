@@ -24,6 +24,14 @@ class HomeController extends Controller
         'photo' => 'required|max:1024',
 	];
 
+    private const REVIEW_CREATE_VALIDATOR = [
+        'ad_id' => 'required|integer',
+		'title' => 'required|max:255',
+        'text' => 'required|text',
+        'is_recommended' => 'required|boolean',
+        'rate' => 'required|integer|min:1|max:5'
+	];
+
 
     /**
      * Create a new controller instance.
@@ -83,13 +91,6 @@ class HomeController extends Controller
                                         'orders' => $user->orders()->get()]);
     }
 
-    // obsolete bought_ads
-    // $user = self::check_auth_user();
-    // $ad_ids = $user->orders()->pluck('ad_id');
-    // return view('home/ads/bought', [
-    //                                 'user' => $user, 
-    //                                 'ads' => Ad::whereIn('id', $ad_ids)]);
-
     /**
      * [GET] Show user dashboard page with user's reviews.
      *
@@ -98,12 +99,46 @@ class HomeController extends Controller
     public function reviews()
     {
         $user = self::check_auth_user();
-        throw new NotFoundHttpException("Страница не существует");
-        // TODO
-        // $user = Auth::user();
-        // $ads = $user->ads();
-        // return view('home/reviews', ['user' => $user, 'ads' => $ads]);
+        $reviews = $user->reviews()->paginate(10);
+        return view('home/reviews/index', ['user' => $user, 'reviews' => $reviews]);
     }
+
+    /**
+     * [GET] Show the Review create page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function reviews_create_page() {
+        $user = self::check_auth_user();
+        $orders = $user->orders_without_review()->get();
+		return view('home/reviews/create', ['user' => $user, 'orders' => $orders]);
+	}
+
+    /**
+     * [POST] Validate and save Review to Database and redirect to Reviews list home page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function reviews_create_method(Request $request) {
+		$user = self::check_auth_user();
+
+        $validated = $request->validate(self::REVIEW_CREATE_VALIDATOR);
+		// $request->validate(self::AD_CREATE_VALIDATOR);
+
+        // create ad
+
+        $ad_id = Ad::where('title', '=', $validated['ad_title'])->first()->id;
+
+        Ad::create([
+			'title' => $validated['title'],
+			'text' => $validated['text'],
+			'is_recommended' => $validated['is_recommended'],
+			'rate' => $validated['rate'],
+			'ad_id' => $ad_id
+			]);
+
+		return redirect()->route('home.reviews.list');
+	}
 
     /**
      * [GET] Show user dashboard page with user sell stats.

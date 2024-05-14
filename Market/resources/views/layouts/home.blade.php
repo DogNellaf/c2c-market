@@ -23,10 +23,10 @@
                                 <a class="nav-link @yield('home-bought_active')" href="{{ route('home.ads.bought') }}">Купленные модели</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @yield('home-reviews_active') disabled" href="{{ route('home.reviews') }}">Мои отзывы</a>
+                                <a class="nav-link @yield('home-reviews_active')" href="{{ route('home.reviews') }}">Мои отзывы</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @yield('home-stats_active') disabled" href="{{ route('home.stats') }}">Статистика</a>
+                                <a class="nav-link @yield('home-stats_active')" href="{{ route('home.stats') }}">Статистика</a>
                             </li>                             
                             </ul>
                         </div>

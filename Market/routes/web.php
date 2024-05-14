@@ -42,13 +42,13 @@ Route::patch('/ads/edit/{ad}', [AdminController::class, 'ad_update'])->name('adm
 Route::delete('/ads/{ad}', [AdminController::class, 'ad_delete'])->name('admin.ads.delete.method');
 
 // Review pages
-Route::get('/reviews/create', [AdminController::class, 'review_create'])->name('reviews.create.page');
-Route::post('/reviews/create', [AdminController::class, 'review_store'])->name('reviews.create.method');
+Route::get('/home/reviews/create', [HomeController::class, 'reviews_create_page'])->name('home.reviews.create.page');
+Route::post('/home/reviews/create', [HomeController::class, 'review_store'])->name('home.reviews.create.method');
 
-Route::get('/reviews/edit/{review}', [AdminController::class, 'review_edit'])->name('reviews.edit.page');
-Route::patch('/reviews/edit/{review}', [AdminController::class, 'review_update'])->name('reviews.edit.method');
+Route::get('/home/reviews/edit/{review}', [HomeController::class, 'review_edit'])->name('home.reviews.edit.page');
+Route::patch('/home/reviews/edit/{review}', [HomeController::class, 'review_update'])->name('home.reviews.edit.method');
 
-Route::delete('/reviews/{review}', [AdminController::class, 'review_delete'])->name('review.delete.method');
+Route::delete('/home/reviews/{review}', [HomeController::class, 'review_delete'])->name('home.review.delete.method');
 
 /* Main pages */
 
