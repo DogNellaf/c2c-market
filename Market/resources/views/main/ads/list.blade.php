@@ -20,62 +20,22 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="owl-features owl-carousel">
-              <div class="item">
-                <div class="thumb">
-                  <img src="{{ asset('images/featured-01.jpg') }}" alt="" style="border-radius: 20px;">
-                  <div class="hover-effect">
-                    <div class="content">
-                      <h4>Triple Mutant Ape Bored</h4>
-                      <span class="author">
-                        <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                        <h6>Liberty Artist<br><a href="#">@libertyart</a></h6>
-                      </span>
+              @foreach ($main_ads as $ad)
+                <div class="item">
+                  <div class="thumb">
+                    <img src="{{ asset($ad->photo_link) }}" alt="" style="border-radius: 20px;">
+                    <div class="hover-effect">
+                      <div class="content">
+                        <h4>{{ $ad->title }}</h4>
+                        <span class="author">
+                          <img src="{{ asset($ad->user->avatar_url) }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
+                          <h6>Автор<br><a href="{{ route('main.users.detail', ['user' => $ad->user]) }}">{{ $ad->user->name }}</a></h6>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="item">
-                <div class="thumb">
-                  <img src="{{ asset('images/featured-02.jpg') }}" alt="" style="border-radius: 20px;">
-                  <div class="hover-effect">
-                    <div class="content">
-                      <h4>Bored Ape Kennel Club</h4>
-                      <span class="author">
-                        <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                        <h6>Liberty Artist<br><a href="#">@libertyart</a></h6>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="thumb">
-                  <img src="{{ asset('images/featured-03.jpg') }}" alt="" style="border-radius: 20px;">
-                  <div class="hover-effect">
-                    <div class="content">
-                      <h4>Genesis Club by KMT</h4>
-                      <span class="author">
-                        <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                        <h6>Liberty Artist<br><a href="#">@libertyart</a></h6>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="thumb">
-                  <img src="{{ asset('images/featured-04.jpg') }}" alt="" style="border-radius: 20px;">
-                  <div class="hover-effect">
-                    <div class="content">
-                      <h4>Crypto Aurora Guy</h4>
-                      <span class="author">
-                        <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                        <h6>Liberty Artist<br><a href="#">@libertyart</a></h6>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              @endforeach
             </div>
           </div>
         </div>
@@ -95,185 +55,42 @@
         <div class="col-lg-7">
 
         </div>
-        <div class="col-lg-3">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="author">
-                  <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                </span>
-                <img src="{{ asset('images/discover-03.jpg') }}" alt="" style="border-radius: 20px;">
-                <h4>Genesis Meta Boom</h4>
-              </div>
-              <div class="col-lg-12">
-                <div class="line-dec"></div>
-                <div class="row">
-                  <div class="col-6">
-                    <span>Current Bid: <br> <strong>5.15 ETH</strong></span>
-                  </div>
-                  <div class="col-6">
-                    <span>Ends In: <br> <strong>26th Nov</strong></span>
+        @foreach ($ads as $ad)
+          <div class="col-lg-3">
+            <div class="item">
+              <div class="row">
+                <div class="col-lg-12">
+                  <span class="author">
+                    <img src="{{ asset($ad->user->avatar_url) }}" alt="" style="width: 50px; height: 50px; border-radius: 50%;">
+                  </span>
+                  <img src="{{ asset($ad->photo_link) }}" alt="" style="border-radius: 20px;">
+                  <h4>{{ $ad->title }}</h4>
+                </div>
+                <div class="col-lg-12">
+                  <div class="line-dec"></div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span>Цена <br> <strong>{{ $ad->price }}</strong></span>
+                    </div>
+                    <div class="col-6">
+                      <span>Средняя оценка: <br> <strong>{{ $ad->get_average_rating() }}</strong></span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="main-button">
-                  <a href="details.html">View Details</a>
+                <div class="col-lg-12">
+                  <div class="main-button">
+                    <a href="{{ route('main.ads.detail', ['ad' => $ad]) }}">Подробнее</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="author">
-                  <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                </span>
-                <img src="{{ asset('images/discover-04.jpg') }}" alt="" style="border-radius: 20px;">
-                <h4>Another Half Ape</h4>
-              </div>
-              <div class="col-lg-12">
-                <div class="line-dec"></div>
-                <div class="row">
-                  <div class="col-6">
-                    <span>Current Bid: <br> <strong>3.63 ETH</strong></span>
-                  </div>
-                  <div class="col-6">
-                    <span>Ends In: <br> <strong>24th Nov</strong></span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="main-button">
-                  <a href="#">View Details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="author">
-                  <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                </span>
-                <img src="{{ asset('images/discover-03.jpg') }}" alt="" style="border-radius: 20px;">
-                <h4>Pixel Sand Box</h4>
-              </div>
-              <div class="col-lg-12">
-                <div class="line-dec"></div>
-                <div class="row">
-                  <div class="col-6">
-                    <span>Current Bid: <br> <strong>4.68 ETH</strong></span>
-                  </div>
-                  <div class="col-6">
-                    <span>Ends In: <br> <strong>28th Nov</strong></span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="main-button">
-                  <a href="#">View Details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="author">
-                  <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                </span>
-                <img src="{{ asset('images/discover-04.jpg') }}" alt="" style="border-radius: 20px;">
-                <h4>Another Half Ape</h4>
-              </div>
-              <div class="col-lg-12">
-                <div class="line-dec"></div>
-                <div class="row">
-                  <div class="col-6">
-                    <span>Current Bid: <br> <strong>2.03 ETH</strong></span>
-                  </div>
-                  <div class="col-6">
-                    <span>Ends In: <br> <strong>25th Nov</strong></span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="main-button">
-                  <a href="#">View Details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="author">
-                  <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                </span>
-                <img src="{{ asset('images/discover-06.jpg') }}" alt="" style="border-radius: 20px;">
-                <h4>Invisible NFT Land</h4>
-              </div>
-              <div class="col-lg-12">
-                <div class="line-dec"></div>
-                <div class="row">
-                  <div class="col-6">
-                    <span>Current Bid: <br> <strong>2.03 ETH</strong></span>
-                  </div>
-                  <div class="col-6">
-                    <span>Ends In: <br> <strong>25th Nov</strong></span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="main-button">
-                  <a href="#">View Details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-12">
-                <span class="author">
-                  <img src="{{ asset('images/author.jpg') }}" alt="" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
-                </span>
-                <img src="{{ asset('images/discover-05.jpg') }}" alt="" style="border-radius: 20px;">
-                <h4>Another Half Ape</h4>
-              </div>
-              <div class="col-lg-12">
-                <div class="line-dec"></div>
-                <div class="row">
-                  <div class="col-6">
-                    <span>Current Bid: <br> <strong>2.64 ETH</strong></span>
-                  </div>
-                  <div class="col-6">
-                    <span>Ends In: <br> <strong>25th Nov</strong></span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="main-button">
-                  <a href="#">View Details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        @endforeach
       </div>
     </div>
   </div>
   
-  <div class="top-seller">
+  <!-- <div class="top-seller">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -359,5 +176,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 @endsection('content')

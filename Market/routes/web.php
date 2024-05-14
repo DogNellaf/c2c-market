@@ -61,3 +61,4 @@ Route::get('/authors/{user}', [MainController::class, 'user_detail'])->name('mai
 
 /* Buying ad */
 Route::get('/ads/{ad}/buy', [MainController::class, 'buy'])->name('main.ads.buy');
+Route::get('/ads/{ad}/buy/confirm', [MainController::class, 'confirm'])->name('main.ads.buy.confirm');
