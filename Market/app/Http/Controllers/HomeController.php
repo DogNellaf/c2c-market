@@ -80,8 +80,15 @@ class HomeController extends Controller
         $user = self::check_auth_user();
         return view('home/ads/bought', [
                                         'user' => $user, 
-                                        'ads' => $user->bought_ads()]);
+                                        'orders' => $user->orders()->get()]);
     }
+
+    // obsolete bought_ads
+    // $user = self::check_auth_user();
+    // $ad_ids = $user->orders()->pluck('ad_id');
+    // return view('home/ads/bought', [
+    //                                 'user' => $user, 
+    //                                 'ads' => Ad::whereIn('id', $ad_ids)]);
 
     /**
      * [GET] Show user dashboard page with user's reviews.

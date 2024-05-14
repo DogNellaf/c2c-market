@@ -59,9 +59,9 @@ class User extends Authenticatable
 	}
 
     /* bought ads */
-	public function bought_ads() {
-		return $this->hasManyThrough(Order::class, Ad::class);
-	}
+	// public function bought_ads() {
+	// 	return $this->hasManyThrough(Order::class, Ad::class);
+	// }
 
     /* owned reviews */
 	public function reviews() {

@@ -9,7 +9,7 @@ use App\Models\Ad;
 
 class Order extends Model
 {
-    protected $fillable = ['status'];
+    protected $fillable = ['ad_id', 'user_id', 'price', 'status'];
 	public function user() {
 		return $this->belongsTo(User::class);
 	}

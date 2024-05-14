@@ -102,6 +102,10 @@ class MainController extends Controller
 
         $user = Auth::user();
 
+        if ($ad->user_id == $user->id) {
+            return abort('403');
+        }
+
         $order = Order::create([
             'ad_id' => $ad->id,
             'user_id' => $user->id,
