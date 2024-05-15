@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use App\Models\Ad;
+use App\Models\Review;
 
 class HomeController extends Controller
 {
@@ -27,11 +28,17 @@ class HomeController extends Controller
     private const REVIEW_CREATE_VALIDATOR = [
         'ad_id' => 'required|integer',
 		'title' => 'required|max:255',
-        'text' => 'required|text',
-        'is_recommended' => 'required|boolean',
+        'text' => 'required|string',
+        'is_recommended' => 'required|string',
         'rate' => 'required|integer|min:1|max:5'
 	];
 
+    private const REVIEW_EDIT_VALIDATOR = [
+		'title' => 'required|max:255',
+        'text' => 'required|string',
+        'is_recommended' => 'required|string',
+        'rate' => 'required|integer|min:1|max:5'
+	];
 
     /**
      * Create a new controller instance.
@@ -108,7 +115,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function reviews_create_page() {
+	public function review_create_page() {
         $user = self::check_auth_user();
         $orders = $user->orders_without_review()->get();
 		return view('home/reviews/create', ['user' => $user, 'orders' => $orders]);
@@ -119,7 +126,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function reviews_create_method(Request $request) {
+    public function review_create_method(Request $request) {
 		$user = self::check_auth_user();
 
         $validated = $request->validate(self::REVIEW_CREATE_VALIDATOR);
@@ -127,17 +134,52 @@ class HomeController extends Controller
 
         // create ad
 
-        $ad_id = Ad::where('title', '=', $validated['ad_title'])->first()->id;
+        $ad_id = Ad::where('id', '=', $validated['ad_id'])->first()->id;
 
-        Ad::create([
-			'title' => $validated['title'],
-			'text' => $validated['text'],
-			'is_recommended' => $validated['is_recommended'],
-			'rate' => $validated['rate'],
-			'ad_id' => $ad_id
-			]);
+        $is_recommended =  $validated['is_recommended'] == 'True'? True : False;
+
+        Review::create(['title' => $validated['title'],
+                        'text' => $validated['text'],
+                        'is_recommended' => $is_recommended,
+                        'rate' => $validated['rate'],
+                        'ad_id' => $ad_id,
+                        'user_id' => $user->id]);
 
 		return redirect()->route('home.reviews.list');
+	}
+
+    /**
+     * [GET] Show Review edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function review_edit_page(Review $review) {
+		return view('home/reviews/edit', ['review' => $review, 'user' => self::check_auth_user()]);
+	}
+
+    /**
+     * [PATCH] Save new version of Review to database and redirect to Reviews list page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function review_edit_method(Request $request, Review $review) {
+		$user = self::check_auth_user();
+
+        if ($review->user_id != $user->id) {
+            return abort('403');
+        }
+
+		$validated = $request->validate(self::REVIEW_EDIT_VALIDATOR);
+
+        $is_recommended =  $validated['is_recommended'] == 'True'? True : False;
+
+		$review->fill(['title' => $validated['title'],
+                       'text' => $validated['text'],
+                       'is_recommended' => $is_recommended,
+                       'rate' => $validated['rate']]);
+        $review->save();
+
+        return redirect()->route('home.reviews.list');
 	}
 
     /**

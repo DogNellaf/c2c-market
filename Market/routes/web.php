@@ -17,8 +17,6 @@ Route::post('/home', [HomeController::class, 'save_data'])->name('home.index.sav
 
 Route::get('/home/models/own', [HomeController::class, 'own_ads'])->name('home.ads.own');
 Route::get('/home/models/bought', [HomeController::class, 'bought_ads'])->name('home.ads.bought');
-Route::get('/home/reviews', [HomeController::class, 'reviews'])->name('home.reviews');
-Route::get('/home/stat', [HomeController::class, 'stats'])->name('home.stats');
 
 Route::get('/home/models/own/create', [HomeController::class, 'ads_create_page'])->name('home.ads.create.page');
 Route::post('/home/models/own/create', [HomeController::class, 'ads_create_method'])->name('home.ads.create.method');
@@ -27,6 +25,16 @@ Route::get('/home/models/own/{ad}/edit', [HomeController::class, 'ads_edit_page'
 Route::patch('/home/models/own/{ad}/edit', [HomeController::class, 'ads_edit_method'])->name('home.ads.edit.method');
 Route::patch('/home/models/own/{ad}/hide', [HomeController::class, 'ads_hide_method'])->name('home.ads.hide.method');
 Route::patch('/home/models/own/{ad}/show', [HomeController::class, 'ads_show_method'])->name('home.ads.show.method');
+
+Route::get('/home/reviews', [HomeController::class, 'reviews'])->name('home.reviews.list');
+
+Route::get('/home/reviews/create', [HomeController::class, 'review_create_page'])->name('home.reviews.create.page');
+Route::post('/home/reviews/create', [HomeController::class, 'review_create_method'])->name('home.reviews.create.method');
+Route::get('/home/reviews/edit/{review}', [HomeController::class, 'review_edit_page'])->name('home.reviews.edit.page');
+Route::patch('/home/reviews/edit/{review}', [HomeController::class, 'review_edit_method'])->name('home.reviews.edit.method');
+// Route::delete('/home/reviews/{review}', [HomeController::class, 'review_delete'])->name('home.review.delete.method');
+
+Route::get('/home/stat', [HomeController::class, 'stats'])->name('home.stats');
 
 /* Admin dashboard */
 
@@ -40,15 +48,6 @@ Route::get('/ads/edit/{ad}', [AdminController::class, 'ad_edit'])->name('admin.a
 Route::patch('/ads/edit/{ad}', [AdminController::class, 'ad_update'])->name('admin.edit.method');
 
 Route::delete('/ads/{ad}', [AdminController::class, 'ad_delete'])->name('admin.ads.delete.method');
-
-// Review pages
-Route::get('/home/reviews/create', [HomeController::class, 'reviews_create_page'])->name('home.reviews.create.page');
-Route::post('/home/reviews/create', [HomeController::class, 'review_store'])->name('home.reviews.create.method');
-
-Route::get('/home/reviews/edit/{review}', [HomeController::class, 'review_edit'])->name('home.reviews.edit.page');
-Route::patch('/home/reviews/edit/{review}', [HomeController::class, 'review_update'])->name('home.reviews.edit.method');
-
-Route::delete('/home/reviews/{review}', [HomeController::class, 'review_delete'])->name('home.review.delete.method');
 
 /* Main pages */
 

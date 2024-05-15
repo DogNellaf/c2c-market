@@ -14,7 +14,9 @@ class Review extends Model
 						   'text', 
 						   'is_recommended', 
 						   'rate', 
-						   'status'
+						   'status',
+						   'ad_id',
+						   'user_id'
 						   ];
 	public function user() {
 		return $this->belongsTo(User::class);

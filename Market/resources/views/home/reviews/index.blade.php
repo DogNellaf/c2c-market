@@ -1,6 +1,6 @@
 @extends('layouts.home')
 @section('title', 'Отзывы')
-@section('home-reviews', 'active')
+@section('home-reviews_active', 'active')
 @section('card')
     <div class="row">
         <div class="col"></div>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col">
                     <span class="bid">
-                        Рекомендовал ли я?<br><strong>{{$review->is_recommended}}</strong>
+                        Рекомендовал ли я?<br><strong>{{$review->is_recommended == 1 ? 'Да' : 'Нет'}}</strong>
                     </span>
                 </div>
                 <div class="col">
@@ -36,7 +36,7 @@
                     </span>
                 </div>
                 <div class="col">
-                    <a class="btn btn-info mt-4" href="#">Подробнее</a>
+                    <a class="btn btn-info mt-2" href="{{ route('home.reviews.edit.page', ['review' => $review]) }}">Подробнее</a>
                 </div>
             </div>  
         @endforeach
