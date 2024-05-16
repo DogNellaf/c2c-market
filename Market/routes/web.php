@@ -34,7 +34,7 @@ Route::get('/home/reviews/edit/{review}', [HomeController::class, 'review_edit_p
 Route::patch('/home/reviews/edit/{review}', [HomeController::class, 'review_edit_method'])->name('home.reviews.edit.method');
 // Route::delete('/home/reviews/{review}', [HomeController::class, 'review_delete'])->name('home.review.delete.method');
 
-Route::get('/home/stat', [HomeController::class, 'stats'])->name('home.stats');
+Route::get('/home/stats', [HomeController::class, 'stats'])->name('home.stats');
 
 /* Admin dashboard */
 

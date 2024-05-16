@@ -10,7 +10,7 @@
         </div>
     @else
         @foreach ($orders as $order)
-            <div class="row">
+            <div class="row mt-4">
                 <div class="col">
                     <span class="bid">
                         Название<br><strong>{{$order->ad->title}}</strong>
@@ -27,9 +27,10 @@
                     </span>
                 </div>
                 <div class="col">
-                    <a class="btn btn-info mt-4" href="{{ asset($order->ad->model_link) }}" download>Скачать</a>
+                    <a class="btn btn-info mt-3" href="{{ asset($order->ad->model_link) }}" download>Скачать</a>
                 </div>
             </div>  
         @endforeach
+        {{ $orders->links('pagination::bootstrap-4') }}
     @endif
 @endsection

@@ -50,6 +50,11 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Checks auth user and throw 403, if this is guest
+     * 
+     * @return void
+     */
     protected function check_auth_user() {
         $user = Auth::user();
 
@@ -68,133 +73,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = self::check_auth_user();
-        return view('home/index', ['user' => $user]);
-    }
-
-    /**
-     * [GET] Show user dashboard page with user's own models.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function own_ads()
-    {
-        $user = self::check_auth_user();
-        return view('home/ads/index', [
-            'user' => $user, 
-            'ads' => $user->ads()->get()
+        return view('home/index', [
+            'user' => $user
         ]);
-    }
-
-    /**
-     * [GET] Show user dashboard page with account user's bought models.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function bought_ads()
-    {
-        $user = self::check_auth_user();
-        return view('home/ads/bought', [
-                                        'user' => $user, 
-                                        'orders' => $user->orders()->get()]);
-    }
-
-    /**
-     * [GET] Show user dashboard page with user's reviews.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function reviews()
-    {
-        $user = self::check_auth_user();
-        $reviews = $user->reviews()->paginate(10);
-        return view('home/reviews/index', ['user' => $user, 'reviews' => $reviews]);
-    }
-
-    /**
-     * [GET] Show the Review create page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function review_create_page() {
-        $user = self::check_auth_user();
-        $orders = $user->orders_without_review()->get();
-		return view('home/reviews/create', ['user' => $user, 'orders' => $orders]);
-	}
-
-    /**
-     * [POST] Validate and save Review to Database and redirect to Reviews list home page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function review_create_method(Request $request) {
-		$user = self::check_auth_user();
-
-        $validated = $request->validate(self::REVIEW_CREATE_VALIDATOR);
-		// $request->validate(self::AD_CREATE_VALIDATOR);
-
-        // create ad
-
-        $ad_id = Ad::where('id', '=', $validated['ad_id'])->first()->id;
-
-        $is_recommended =  $validated['is_recommended'] == 'True'? True : False;
-
-        Review::create(['title' => $validated['title'],
-                        'text' => $validated['text'],
-                        'is_recommended' => $is_recommended,
-                        'rate' => $validated['rate'],
-                        'ad_id' => $ad_id,
-                        'user_id' => $user->id]);
-
-		return redirect()->route('home.reviews.list');
-	}
-
-    /**
-     * [GET] Show Review edit page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function review_edit_page(Review $review) {
-		return view('home/reviews/edit', ['review' => $review, 'user' => self::check_auth_user()]);
-	}
-
-    /**
-     * [PATCH] Save new version of Review to database and redirect to Reviews list page.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-	public function review_edit_method(Request $request, Review $review) {
-		$user = self::check_auth_user();
-
-        if ($review->user_id != $user->id) {
-            return abort('403');
-        }
-
-		$validated = $request->validate(self::REVIEW_EDIT_VALIDATOR);
-
-        $is_recommended =  $validated['is_recommended'] == 'True'? True : False;
-
-		$review->fill(['title' => $validated['title'],
-                       'text' => $validated['text'],
-                       'is_recommended' => $is_recommended,
-                       'rate' => $validated['rate']]);
-        $review->save();
-
-        return redirect()->route('home.reviews.list');
-	}
-
-    /**
-     * [GET] Show user dashboard page with user sell stats.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function stats()
-    {
-        $user = self::check_auth_user();
-        throw new NotFoundHttpException("Страница не существует");
-        // TODO
-        // $user = Auth::user();
-        // $ads = $user->ads();
-        // return view('home/stats', ['user' => $user, 'ads' => $ads]);
     }
 
     /**
@@ -238,19 +119,12 @@ class HomeController extends Controller
         $user->avatar_url = "images/author.jpg";
 
         if ($request->hasFile('avatar')) {
-
             $avatar = $request->file('avatar');
-
             $date = date('YmdHis');
-
             $avatar_filename = $date.'.png';
-
             $public_path = "storage\\";
-
             $avatar_path = $public_path.'\\'.$avatar_filename;
-
             $user->avatar_url = $avatar_path;
-
             $avatar->move($public_path, $avatar_filename);
         }
 
@@ -258,6 +132,19 @@ class HomeController extends Controller
         return redirect()->route('home.index');
     }
 
+    /**
+     * [GET] Show user dashboard page with user's own models.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function own_ads()
+    {
+        $user = self::check_auth_user();
+        return view('home/ads/index', [
+            'user' => $user, 
+            'ads' => $user->ads()->paginate(5)
+        ]);
+    }
 
     /**
      * [GET] Show the Ad create page.
@@ -265,7 +152,9 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads_create_page() {
-		return view('home/ads/create', ['user' => self::check_auth_user()]);
+		return view('home/ads/create', [
+            'user' => self::check_auth_user()
+        ]);
 	}
 
     /**
@@ -305,7 +194,7 @@ class HomeController extends Controller
 			'model_link' => $model_path,
 			'user_id' => $user->id,
             'photo_link' => $photo_path
-			]);
+		]);
 
 		return redirect()->route('home.ads.own');
 	}
@@ -316,8 +205,10 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ads_edit_page(Ad $ad) {
-		return view('home/ads/edit', ['ad' => $ad, 
-                                      'user' => self::check_auth_user()]);
+		return view('home/ads/edit', [
+            'ad' => $ad, 
+            'user' => self::check_auth_user()
+        ]);
 	}
 
     /**
@@ -333,10 +224,14 @@ class HomeController extends Controller
         }
 
 		$validated = $request->validate(self::AD_EDIT_VALIDATOR);
-		$ad->fill(['title' => $validated['title'],
-				   'description' => $validated['description'],
-				   'price' => $validated['price'],
-				   'video_link' => $validated['video_link']]);
+
+		$ad->fill([
+            'title' => $validated['title'],
+			'description' => $validated['description'],
+			'price' => $validated['price'],
+			'video_link' => $validated['video_link']
+        ]);
+
         $ad->save();
         return redirect()->route('home.ads.own');
 	}
@@ -382,4 +277,166 @@ class HomeController extends Controller
             return abort('403');
         }
 	}
+
+    /**
+     * [GET] Show user dashboard page with account user's bought models.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function bought_ads()
+    {
+        $user = self::check_auth_user();
+        return view('home/ads/bought', [
+            'user' => $user, 
+            'orders' => $user->orders()->paginate(5)
+        ]);
+    }
+
+    /**
+     * [GET] Show user dashboard page with user's reviews.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function reviews()
+    {
+        $user = self::check_auth_user();
+        return view('home/reviews/index', [
+            'user' => $user, 
+            'reviews' => $user->reviews()->paginate(5)
+        ]);
+    }
+
+    /**
+     * [GET] Show the Review create page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function review_create_page() {
+        
+        $user = self::check_auth_user();
+		return view('home/reviews/create', [
+            'user' => $user, 
+            'orders' => $user->orders_without_review()->paginate(10)
+        ]);
+	}
+
+    /**
+     * [POST] Validate and save Review to Database and redirect to Reviews list home page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function review_create_method(Request $request) {
+		
+        $user = self::check_auth_user();
+
+        $validated = $request->validate(self::REVIEW_CREATE_VALIDATOR);
+
+        // create ad
+
+        $ad_id = Ad::where('id', '=', $validated['ad_id'])->first()->id;
+
+        $is_recommended =  $validated['is_recommended'] == 'True'? True : False;
+
+        Review::create([
+            'title' => $validated['title'],
+            'text' => $validated['text'],
+            'is_recommended' => $is_recommended,
+            'rate' => $validated['rate'],
+            'ad_id' => $ad_id,
+            'user_id' => $user->id
+        ]);
+
+		return redirect()->route('home.reviews.list');
+	}
+
+    /**
+     * [GET] Show Review edit page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function review_edit_page(Review $review) {
+		return view('home/reviews/edit', [
+            'user' => self::check_auth_user(),
+            'review' => $review
+        ]);
+	}
+
+    /**
+     * [PATCH] Save new version of Review to database and redirect to Reviews list page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function review_edit_method(Request $request, Review $review) {
+		
+        $user = self::check_auth_user();
+
+        if ($review->user_id != $user->id) {
+            return abort('403');
+        }
+
+		$validated = $request->validate(self::REVIEW_EDIT_VALIDATOR);
+
+        $is_recommended =  $validated['is_recommended'] == 'True'? True : False;
+
+		$review->fill([
+            'title' => $validated['title'],
+            'text' => $validated['text'],
+            'is_recommended' => $is_recommended,
+            'rate' => $validated['rate']
+        ]);
+
+        $review->save();
+
+        return redirect()->route('home.reviews.list');
+	}
+
+    /**
+     * [GET] Show user dashboard page with user sell stats with year param.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function stats(Request $request)
+    {
+
+        $user = self::check_auth_user();
+
+        $current_year = date("Y");
+        $current_month = date("m");
+
+        $year = $request['year'];
+        if ($year == null) {
+            $year = $current_year;
+        }
+
+        $months = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+        $values = [];
+        $max_value = 0;
+
+        if ($year > $current_year) {
+            return abort(500);
+        }
+
+        if ($year == $current_year) {
+            for ($i = 12; $i > $current_month; $i--) {
+                unset($months[$i - 1]);
+                $months = array_values($months);
+            }
+        }
+
+        foreach ($months as $month) {
+            $income = $user->get_income($year, $month);
+            if ($income > $max_value) {
+                $max_value = $income;
+            }
+            array_push($values, $income);
+        }
+
+        return view('home/stats', [
+            'user' => $user, 
+            'values' => $values,
+            'months' => $months,
+            'year' => $year,
+            'max_value' => $max_value * 1.2
+        ]);
+    }
 }

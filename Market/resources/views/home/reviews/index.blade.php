@@ -19,7 +19,7 @@
         </div>
     @else
         @foreach ($reviews as $review)
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col">
                     <span class="bid">
                         Заголовок<br><strong>{{$review->title}}</strong>
@@ -36,7 +36,7 @@
                     </span>
                 </div>
                 <div class="col">
-                    <a class="btn btn-info mt-2" href="{{ route('home.reviews.edit.page', ['review' => $review]) }}">Подробнее</a>
+                    <a class="btn btn-info mt-3" href="{{ route('home.reviews.edit.page', ['review' => $review]) }}">Подробнее</a>
                 </div>
             </div>  
         @endforeach

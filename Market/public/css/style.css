@@ -1,25 +1,3 @@
-/*
-
-TemplateMo 577 Liberty Market
-
-https://templatemo.com/tm-577-liberty-market
-
-*/
-
-/* ---------------------------------------------
-Table of contents
-------------------------------------------------
-01. font & reset css
-02. reset
-03. global styles
-04. header
-05. banner
-06. features
-07. testimonials
-08. contact
-09. footer
-
---------------------------------------------- */
 /* 
 ---------------------------------------------
 font & reset css
@@ -148,6 +126,48 @@ body {
   transition: all .3s;
   position: relative;
   overflow: hidden;
+}
+
+.ads-list-user-avatar {
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%;
+}
+
+.ads-list-model-img {
+  border-radius: 20px;
+}
+
+.index-model-img {
+  border-radius: 20px;
+  min-width: 195px;
+}
+
+.index-user-img {
+  max-width: 50px;
+  border-radius: 50%;
+}
+
+.user-detail-user-img {
+  border-radius: 50%;
+  max-width: 170px;
+}
+
+.user-detail-model-img {
+  border-radius: 20px;
+}
+
+.model-detail-model-img {
+  border-radius: 20px;
+}
+
+.model-detail-user-img {
+  max-width: 50px;
+  border-radius: 50%;
+}
+
+.stats-canvas {
+  height: 50vh
 }
 
 .border-button a:after {

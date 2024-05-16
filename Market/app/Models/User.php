@@ -53,6 +53,21 @@ class User extends Authenticatable
 		return $this->hasMany(Ad::class);
 	}
 
+    /* sales income for n-month */
+    public function get_income($year, $month) {
+        $sum = 0;
+        $ads = $this->ads()->get();
+        $month_start = date_create($year.'-'.$month.'-1');
+        $month_end = date_create($year.'-'.$month.'-31');
+        foreach ($ads as $ad) {
+            $orders = $ad->orders()->where('created_at', '>=', $month_start)->where('created_at', '<=', $month_end)->get();
+            foreach ($orders as $order) {
+                $sum = $sum + $order->price;
+            }
+        }
+        return $sum;
+    }
+
     /* orders to buy models */
 	public function orders() {
 		return $this->hasMany(Order::class);
