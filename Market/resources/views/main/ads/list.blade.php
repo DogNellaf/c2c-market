@@ -82,7 +82,7 @@
                     </div>
                     <div class="col-6">
                       <span>
-                        Средняя оценка: 
+                        Рейтинг 
                         <br> 
                         <strong>
                           @if ($ad->get_average_rating() == "" || $ad->get_average_rating() == -1)

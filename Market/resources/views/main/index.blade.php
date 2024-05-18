@@ -86,40 +86,46 @@
 		  </div>
 		</div>
 	  </div>
-		@foreach ($ads as $ad)
-		  <div class="col-lg-12">
-			<div class="row grid">
-			  <div class="col-lg-6 currently-market-item all msc">
-				<div class="item">
-				  <div class="left-image">
-				  <img class="index-model-img" src="{{ $ad->photo_link }}" alt="Model image"/>
+	  <div class="col-lg-12">
+		<div class="row grid">
+		  @foreach ($ads as $ad)
+		    <div class="col-lg-6 currently-market-item all msc">
+			  <div class="item">
+				<div class="left-image">
+				  <img class="index-model-img" src="{{ asset($ad->photo_link) }}" alt="Model image"/>
 				</div>
 				<div class="right-content">
 				  <h4>{{ $ad->title }}</h4>
 				  <span class="author">
-					<img class="index-user-img" src="{{ $ad->avatar }}" alt="User avatar"/>
+					<img class="index-user-img" src="{{ asset($ad->user->avatar_url) }}" alt="User avatar"/>
 					<h6>{{ $ad->author }}</h6>
 				  </span>
 				  <div class="line-dec"></div>
-				  <span class="bid">
-					Цена
-					<br>
-					<strong>{{ $ad->price }} Руб.</strong>
-				  </span>
-				  <span class="ends">
-					Средняя оценка
-					<br>
-					<strong>{{  $ad->get_average_rating() == -1 ? "-": $ad->get_average_rating() }}</strong>
-				  </span>
+				  <div class="row">
+					<div class="col-6">
+					  <span class="bid">
+						Цена
+						<br>
+						<strong>{{ $ad->price }}</strong>
+					  </span>
+					</div>
+					<div class="col-6">
+					  <span class="bid">
+						Рейтинг
+						<br>
+						<strong>{{ $ad->get_average_rating() == -1? "Нет" : $ad->get_average_rating() }}</strong>
+					  </span>
+					</div>
+				  </div>
 				  <div class="text-button">
 					<a href="{{ route('main.ads.detail', ['ad' => $ad]) }}">Подробнее</a>
 				  </div>
 				</div>
 			  </div>
 			</div>
-		  </div>
+		  @endforeach
 		</div>
-	  @endforeach
+	  </div>
 	</div>
   </div>
 @endsection('content')

@@ -35,10 +35,75 @@
                 <br>
                 <strong>{{ $ad->price }} рублей</strong>
               </span>
+              <span class="bid text-center">
+                Средняя оценка
+                <br>
+                <strong>{{ $ad->get_average_rating() }}</strong>
+              </span>
             </div>
           </div>
           <div class="main-button">
             <a href="{{ route('main.ads.buy', ['ad' => $ad]) }}" class="main-button">Купить</a>
+          </div>
+        </div>
+      </div>
+      <div class="currently-market">
+        <div class="container">
+	        <div class="row">
+	          <div class="col-lg-6">
+		          <div class="section-heading">
+		            <div class="line-dec"></div>
+			          <h2>
+                  <em>Отзывы</em>
+                </h2>
+		          </div>
+		        </div>
+	        </div>
+	        <div class="col-lg-12">
+		        <div class="row grid">
+              @foreach ($ad->reviews_with_pagination() as $review)
+                <div class="col-lg-12"> 
+                  <div class="row grid">
+                    <div class="col-lg-6 currently-market-item all msc">
+                      <div class="item">
+                        <div class="right-content">
+                          <span class="author">
+                            <h6><a href="{{ route('main.users.detail', ['user' => $ad->user]) }}">{{ $ad->user->name }}</a></h6>
+                          </span>
+                          <h4>{{ $review->title }}</h4>
+                          <div class="line-dec"></div>
+                          <span class="bid">
+                            {{ $review->text }}
+                          </span>
+                          <div class="line-dec"></div>
+                          <span class="bid">
+                            @if ($review->is_recommended)
+                              Рекомендую!
+                            @else
+                              Не рекомендую!
+                            @endif
+                          </span>
+                          <span style="color: gold;">
+                            @if ($review->rate == 5)
+                              ★★★★★
+                            @elseif ($review->rate == 4)
+                              ★★★★
+                            @elseif ($review->rate == 3)
+                              ★★★
+                            @elseif ($review->rate == 2)
+                              ★★
+                            @else
+                              ★
+                            @endif
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
+              {{ $ad->reviews_with_pagination()->links('pagination::bootstrap-4') }}
+            </div>
           </div>
         </div>
       </div>

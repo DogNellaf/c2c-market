@@ -35,11 +35,16 @@ class Ad extends Model
 		return $this->hasMany(Review::class);
 	}
 
+	/* reviews about this ad with pagination */
+	public function reviews_with_pagination() {
+		return $this->hasMany(Review::class)->paginate(10);
+	}
+
 	/* mean of rates in reviews about this ad, if no reviews, will return -1 */
 	public function get_average_rating() {
 		$reviews = $this->reviews;
 		if ($reviews->count() != 0) {
-			return $reviews->pluck('rating')->avg();
+			return $reviews->pluck('rate')->avg();
 		} 
 		return -1;
 	}
