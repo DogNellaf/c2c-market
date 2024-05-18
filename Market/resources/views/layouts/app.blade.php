@@ -50,7 +50,7 @@
 				@auth
 				  @if (Auth::user()->is_admin)
 					<li>
-					  <a href="{{ route('admin.index') }}" class="@yield('admin_active')">Панель администратора</a>
+					  <a href="{{ route('admin.ads.list') }}" class="@yield('admin_active')">Панель администратора</a>
 					</li>
 				  @else
 					<li>

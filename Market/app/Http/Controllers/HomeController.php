@@ -53,7 +53,7 @@ class HomeController extends Controller
     /**
      * Checks auth user and throw 403, if this is guest
      * 
-     * @return void
+     * @return \Illuminate\Contracts\Auth\Authenticatable
      */
     protected function check_auth_user() {
         $user = Auth::user();

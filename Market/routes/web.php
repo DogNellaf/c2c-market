@@ -38,9 +38,10 @@ Route::get('/home/stats', [HomeController::class, 'stats'])->name('home.stats');
 
 /* Admin dashboard */
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-Route::get('/admin/ads', [AdminController::class, 'ad_editor'])->name('admin.ads.editor');
-Route::get('/admin/reviews', [AdminController::class, 'review_editor'])->name('admin.ads.reviews.editor');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.ads.list');
+Route::get('/admin/reviews', [AdminController::class, 'reviews'])->name('admin.reviews.list');
+Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders.list');
+Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users.list');
 
 // AD pages
 
