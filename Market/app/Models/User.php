@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Ad;
 use App\Models\Order;
 use App\Models\Review;
+use App\Models\WalletHistory;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -67,6 +68,31 @@ class User extends Authenticatable
         }
         return $sum;
     }
+
+    /* current balance */
+    public function get_wallet_balance() {
+        $outcome_sum = WalletHistory::where("user_id", "=", $this->id)
+                                    ->where("type", "like", "Outcome")
+                                    ->sum("value");
+        if ($outcome_sum == null) {
+            $outcome_sum = 0;
+        }
+
+        $income_sum = WalletHistory::where("user_id", "=", $this->id)
+                                   ->where("type", "=", "Income")
+                                   ->sum("value");
+        if ($income_sum == null) {
+            $outcome_sum = 0;
+        }
+
+        return $income_sum - $outcome_sum;
+    }
+
+    /* this user's transactions from Wallet History */
+	public function transactions() {
+		return $this->hasMany(WalletHistory::class);
+	}
+
 
     /* orders to buy models */
 	public function orders() {

@@ -52,11 +52,10 @@
 					<li>
 					  <a href="{{ route('admin.ads.list') }}" class="@yield('admin_active')">Панель администратора</a>
 					</li>
-				  @else
-					<li>
-					  <a href="{{ route('home.index') }}" class="@yield('home_active')">Личный кабинет</a>
-					</li>
 				  @endif
+				  <li>
+					<a href="{{ route('home.index') }}" class="@yield('home_active')">Личный кабинет</a>
+				  </li>
 				  <li>
 					<a onclick="document.getElementById('logout').click();">Выход</a>
 				  </li>

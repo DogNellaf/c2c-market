@@ -32,16 +32,24 @@ Route::get('/home/reviews/create', [HomeController::class, 'review_create_page']
 Route::post('/home/reviews/create', [HomeController::class, 'review_create_method'])->name('home.reviews.create.method');
 Route::get('/home/reviews/edit/{review}', [HomeController::class, 'review_edit_page'])->name('home.reviews.edit.page');
 Route::patch('/home/reviews/edit/{review}', [HomeController::class, 'review_edit_method'])->name('home.reviews.edit.method');
-// Route::delete('/home/reviews/{review}', [HomeController::class, 'review_delete'])->name('home.review.delete.method');
 
 Route::get('/home/stats', [HomeController::class, 'stats'])->name('home.stats');
+Route::get('/home/wallet', [HomeController::class, 'wallet'])->name('home.wallet');
+Route::get('/home/wallet/add', [HomeController::class, 'add_balance_page'])->name('home.wallet.add.page');
+Route::post('/home/wallet/add', [HomeController::class, 'add_balance_method'])->name('home.wallet.add.method');
 
 /* Admin dashboard */
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.ads.list');
+Route::get('/admin', [AdminController::class, 'ads'])->name('admin.ads.list');
 Route::get('/admin/reviews', [AdminController::class, 'reviews'])->name('admin.reviews.list');
 Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders.list');
 Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users.list');
+
+Route::patch('/admin/ads/{ad}/approve', [AdminController::class, 'ad_approve'])->name('admin.ads.approve.method');
+Route::patch('/admin/ads/{ad}/reject', [AdminController::class, 'ad_reject'])->name('admin.ads.reject.method');
+
+Route::patch('/admin/users/{user}/unban', [AdminController::class, 'user_unban'])->name('admin.users.unban.method');
+Route::patch('/admin/users/{user}/ban', [AdminController::class, 'user_ban'])->name('admin.users.ban.method');
 
 // AD pages
 

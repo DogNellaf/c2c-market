@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('home_active', 'active')
+@section('admin_active', 'active')
 @section('content')
   <div class="home">
     <div class="container">
@@ -17,14 +17,14 @@
                     <a class="nav-link @yield('admin-ads-active')" href="{{ route('admin.ads.list') }}">Модели</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link @yield('admin-reviews-active')" href="{{ route('admin.reviews.list') }}">Отзывы</a>
+                    <a class="nav-link @yield('admin-reviews-active') disabled" href="{{ route('admin.reviews.list') }}">Отзывы</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link @yield('admin-orders-active')" href="{{ route('admin.orders.list') }}">Заказы</a>
+                    <a class="nav-link @yield('admin-orders-active') disabled" href="{{ route('admin.orders.list') }}">Заказы</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link @yield('admin-users-active')" href="{{ route('admin.users.list') }}">Пользователи</a>
-                  </li>                          
+                  </li>                    
                 </ul>
               </div>
               <div class="card-body">

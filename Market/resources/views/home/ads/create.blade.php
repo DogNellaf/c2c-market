@@ -4,6 +4,7 @@
 @section('card')
 	<form action="{{ route('home.ads.create.method') }}" method="POST" enctype="multipart/form-data">
 		@csrf
+		<input type="hidden" name="MAX_FILE_SIZE" value="1048576"/>
 		<div class="mb-3">
 			<label for="title" class="form-label">Название</label>
 			<input name="title" id="title" class="form-control @error("title") is-invalid @enderror" type="text" value="{{old('title', $user->title)}}"/>
@@ -24,7 +25,7 @@
 		</div>
 		<div class="mb-3">
 			<label for="price" class="form-label">Цена</label>
-			<input name="price" id="price" class="form-control  @error("price") is-invalid @enderror" type="number" value="{{old('price', $user->price)}}"/>
+			<input name="price" id="price" class="form-control @error("price") is-invalid @enderror" type="number" value="{{old('price', $user->price)}}"/>
 			@error('price')
 				<span class="invalid-feedback" role="alert">
 					<strong>{{ $message }}</strong>
@@ -52,9 +53,9 @@
 		<div class="mb-3">
 			<label for="photo" class="form-label">Фото модели</label>
 			<input type="file" class="form-control @error("photo") is-invalid @enderror" id="photo" name="photo" accept=".png,.jpg,.webp">
-			@error('photo_link')
+			@error('photo')
 				<span class="invalid-feedback" role="alert">
-					<strong>{{ $message }}</strong>
+					<strong>Файл имеет слишком большой размер и не может быть загружен.</strong>
 				</span>
             @enderror
 		</div>

@@ -27,7 +27,10 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link @yield('home-stats_active')" href="{{ route('home.stats', ['year' => date('Y')]) }}">Статистика</a>
-                  </li>                             
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link @yield('home-wallet_active')" href="{{ route('home.wallet') }}">Кошелек</a>
+                  </li>
                 </ul>
               </div>
               <div class="card-body">

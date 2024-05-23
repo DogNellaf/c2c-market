@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use App\Models\Ad;
 use App\Models\Review;
+use App\Models\WalletHistory;
 
 class HomeController extends Controller
 {
@@ -38,6 +39,10 @@ class HomeController extends Controller
         'text' => 'required|string',
         'is_recommended' => 'required|string',
         'rate' => 'required|integer|min:1|max:5'
+	];
+
+    private const WALLET_HISTORY_VALIDATOR = [
+        'value' => 'required|numeric|min:1'
 	];
 
     /**
@@ -147,6 +152,54 @@ class HomeController extends Controller
     }
 
     /**
+     * [GET] Show user wallet page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function wallet()
+    {
+        $user = self::check_auth_user();
+        $transactions = $user->transactions()->paginate(5);
+        return view('home/wallet/index', [
+            'user' => $user,
+            'transactions' => $transactions
+        ]);
+    }
+
+    /**
+     * [GET] Show user wallet page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function add_balance_page()
+    {
+        $user = self::check_auth_user();
+        // $transactions = $user->transactions()->paginate(5);
+        return view('home/wallet/add', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * [GET] Show user wallet page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function add_balance_method(Request $request)
+    {
+        $user = self::check_auth_user();
+        $validated = $request->validate(self::WALLET_HISTORY_VALIDATOR);
+        $transaction = WalletHistory::create([
+            'user_id' => $user->id,
+            'value' => $validated['value'],
+            'type' => "Income"
+        ]);
+        $transaction->save();
+        // $transactions = $user->transactions()->paginate(5);
+        return redirect()->route('home.wallet');
+    }
+
+    /**
      * [GET] Show the Ad create page.
      *
      * @return \Illuminate\Contracts\Support\Renderable
@@ -231,6 +284,8 @@ class HomeController extends Controller
 			'price' => $validated['price'],
 			'video_link' => $validated['video_link']
         ]);
+
+        $ad->status = "Created";
 
         $ad->save();
         return redirect()->route('home.ads.own');

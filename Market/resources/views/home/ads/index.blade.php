@@ -19,7 +19,7 @@
         </div>
     @else
         @foreach ($ads as $ad)
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col">
                     <span class="bid">
                         Название<br><strong>{{$ad->title}}</strong>

@@ -68,7 +68,14 @@
                       <div class="item">
                         <div class="right-content">
                           <span class="author">
-                            <h6><a href="{{ route('main.users.detail', ['user' => $ad->user]) }}">{{ $ad->user->name }}</a></h6>
+                            <h6>
+                              <a>{{ $ad->created_at }}</a>
+                            </h6>
+                          </span>
+                          <span class="author">
+                            <h6>
+                              <a href="{{ route('main.users.detail', ['user' => $ad->user]) }}">{{ $ad->user->name }}</a>
+                            </h6>
                           </span>
                           <h4>{{ $review->title }}</h4>
                           <div class="line-dec"></div>

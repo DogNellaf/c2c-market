@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Ad;
 use App\Models\User;
 use App\Models\Order;
-use Illuminate\Support\Facades\DB;
+use App\Models\WalletHistory;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
@@ -105,6 +106,17 @@ class MainController extends Controller
         if ($ad->user_id == $user->id) {
             return abort('403');
         }
+
+        if ($user->get_wallet_balance() < $ad->price) {
+            return abort('500');
+        }
+
+        $transaction = WalletHistory::create([
+            'user_id' => $user->id,
+            'value' => $ad->price,
+            'type' => "Outcome"
+        ]);
+        $transaction->save();
 
         $order = Order::create([
             'ad_id' => $ad->id,
