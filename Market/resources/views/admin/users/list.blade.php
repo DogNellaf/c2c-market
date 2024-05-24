@@ -4,44 +4,44 @@
 @section('admin-users-active', 'active')
 @section('card')
 @foreach ($users as $temp_user)
-    <div class="row mt-3">
+  <div class="row mt-3">
     <div class="col">
-        <span class="bid">
-         Логин
+      <span class="bid">
+        Логин
         <br>
         <strong>{{$temp_user->name}}</strong>
-        </span>
+      </spa>
     </div>
     <div class="col">
-        <span class="bid">
+      <span class="bid">
         Электронная почта
         <br>
         <strong>{{$temp_user->email}}</strong>
-        </span>
+      </span>
     </div>
     <div class="col">
-        <span class="bid">
+      <span class="bid">
         Время регистрации
         <br>
         <strong>{{$temp_user->created_at}}</strong>
-        </span>
+      </span>
     </div>
     <div class="col">
-        @if ($temp_user->is_banned == 1)
+      @if ($temp_user->is_banned == 1)
         <form method="POST" action="{{ route('admin.users.unban.method', ['user' => $temp_user]) }}">
-            @method('patch')
-            @csrf
-            <input class="btn btn-success mt-2" type="submit" value="Разблокировать"/>
+          @method('patch')
+          @csrf
+          <input class="btn btn-success mt-2" type="submit" value="Разблокировать"/>
         </form>
-        @else
+      @else
         <form method="POST" action="{{ route('admin.users.ban.method', ['user' => $temp_user]) }}">
-            @method('patch')
-            @csrf
-            <input class="btn btn-danger mt-2" type="submit" value="Заблокировать"/>
+          @method('patch')
+          @csrf
+          <input class="btn btn-danger mt-2" type="submit" value="Заблокировать"/>
         </form>
-        @endif  
+      @endif  
     </div>
-    </div>  
+  </div>  
 @endforeach
 {{ $users->links('pagination::bootstrap-4') }}
 @endsection
