@@ -14,25 +14,23 @@
       <div class="row mt-3">
         <div class="col">
           <span class="bid">
-            Заголовок
+            Заголовок объявления
             <br>
-            <strong>{{$order->title}}</strong>
+            <strong>{{$order->ad->title}}</strong>
           </span>
         </div>
         <div class="col">
           <span class="bid">
-            Рекомендует?
+            Имя пользователя
             <br>
-            <strong>{{$order->is_recommended}} Руб.</strong>
+            <strong>{{$order->user->name}}</strong>
           </span>
         </div>
         <div class="col">
           <span class="ends">
-            Оценка
+            Сумма заказа
             <br>
-            <strong>
-            
-            </strong>
+            <strong>{{$order->price}}</strong>
           </span>
         </div>
         <div class="col">
@@ -41,31 +39,14 @@
             <br>
             <strong>
               @if ($order->status == "Created")
-                Создана
+                Создан
+              @elseif ($order->status == "Paid")
+                Оплачен
               @elseif ($order->status == "Rejected")
-                Отклонена
-              @elseif ($order->status == "Hidden")
-                Скрыта
-              @elseif ($order->status == "Showed")
-                Отображается
+                Отклонен
               @endif  
             </strong>
           </span>                  
-        </div>
-        <div class="col">
-          @if ($order->status == "Created" || $order->status == "Rejected")
-            <form method="POST" action="#">
-                @method('patch')
-                @csrf
-                <input class="btn btn-success mt-2" type="submit" value="Одобрить"/>
-            </form>
-          @else
-            <form method="POST" action="#">
-                @method('patch')
-                @csrf
-                <input class="btn btn-danger mt-2" type="submit" value="Отклонить"/>
-            </form>
-          @endif  
         </div>
       </div>  
     @endforeach
