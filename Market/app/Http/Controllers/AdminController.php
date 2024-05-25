@@ -29,16 +29,6 @@ class AdminController extends Controller
     }
 
     /**
-     * Logout current user.
-     * 
-    */
-    protected function logout_user($current_user, $logout_user) {
-        Auth::setUser($logout_user);
-        Auth::logout();
-        Auth::setUser($current_user);
-    }
-
-    /**
      * Checks auth user and throw 403, if this is guest
      * 
      * @return \Illuminate\Contracts\Auth\Authenticatable

@@ -53,6 +53,11 @@ class MainController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function buy(Ad $ad) {
+
+        if ($ad->status != "Showed") {
+            return abort(403);
+        }
+
 		return view('main/ads/buy', ['ad' => $ad]);
 	}
 
@@ -71,6 +76,11 @@ class MainController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function ad_detail(Ad $ad) {
+
+        if ($ad->status != "Showed") {
+            return abort(403);
+        }
+
 		return view('main/ads/detail', ['ad' => $ad]);
 	}
 
@@ -81,6 +91,11 @@ class MainController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 	public function user_detail(User $user) {
+
+        if ($ad->is_banned) {
+            return abort(403);
+        }
+
 		return view('main/users/detail', ['user' => $user]);
 	}
 
@@ -101,9 +116,25 @@ class MainController extends Controller
             return abort('403');
         }
 
+        if ($user->is_banned) {
+            return abort(403);
+        }
+
+        if ($ad->status != "Showed") {
+            return abort(403);
+        }
+
         if ($user->get_wallet_balance() < $ad->price) {
             return abort('500');
         }
+
+        $order = Order::create([
+            'ad_id' => $ad->id,
+            'user_id' => $user->id,
+            'price' => $ad->price,
+            'status' => 'Created'
+        ]);
+        $order->save();
 
         $outcome_transaction = WalletHistory::create([
             'user_id' => $user->id,
@@ -119,12 +150,7 @@ class MainController extends Controller
         ]);
         $income_transaction->save();
 
-        $order = Order::create([
-            'ad_id' => $ad->id,
-            'user_id' => $user->id,
-            'price' => $ad->price,
-            'status' => 'Paid'
-        ]);
+        $order->status = "Paid";
         $order->save();
         return redirect()->route('home.ads.bought');
     }
