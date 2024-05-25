@@ -93,6 +93,52 @@ class AdminController extends Controller
 	}
 
     /**
+     * [GET] Show the detail review page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function review(Review $review) {
+		$user = self::check_auth_user();
+
+		return view('admin/reviews/detail', ['user' => $user, 
+                                             'review' => $review]);
+	}
+
+    /**
+     * [PATCH] Change Ad status to Rejected from admin.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function review_reject(Review $review) {
+		$user = Auth::user();
+
+        if (!$user->is_admin) {
+            return abort('403');
+        }
+
+        $review->status = "Rejected";
+        $review->save();
+        return redirect()->route('admin.reviews.list');
+	}
+
+    /**
+     * [PATCH] Change Ad status to Showed from admin.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+	public function review_approve(Review $review) {
+		$user = Auth::user();
+
+        if (!$user->is_admin) {
+            return abort('403');
+        }
+
+        $review->status = "Showed";
+        $review->save();
+        return redirect()->route('admin.reviews.list');
+	}
+
+    /**
      * [GET] Show the reviews editor page.
      *
      * @return \Illuminate\Contracts\Support\Renderable

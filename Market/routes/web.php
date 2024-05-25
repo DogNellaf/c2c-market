@@ -45,8 +45,12 @@ Route::get('/admin/reviews', [AdminController::class, 'reviews'])->name('admin.r
 Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders.list');
 Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users.list');
 
-Route::patch('/admin/ads/{ad}/approve', [AdminController::class, 'ad_approve'])->name('admin.ads.approve.method');
-Route::patch('/admin/ads/{ad}/reject', [AdminController::class, 'ad_reject'])->name('admin.ads.reject.method');
+Route::patch('/admin/ads/{ad}/approve', [AdminController::class, 'ad_approve'])->name('admin.ads.approve');
+Route::patch('/admin/ads/{ad}/reject', [AdminController::class, 'ad_reject'])->name('admin.ads.reject');
+
+Route::get('/admin/reviews/{review}/detail', [AdminController::class, 'review'])->name('admin.reviews.detail');
+Route::patch('/admin/reviews/{review}/approve', [AdminController::class, 'review_approve'])->name('admin.reviews.approve');
+Route::patch('/admin/reviews/{review}/reject', [AdminController::class, 'review_reject'])->name('admin.reviews.reject');
 
 Route::patch('/admin/users/{user}/unban', [AdminController::class, 'user_unban'])->name('admin.users.unban.method');
 Route::patch('/admin/users/{user}/ban', [AdminController::class, 'user_ban'])->name('admin.users.ban.method');

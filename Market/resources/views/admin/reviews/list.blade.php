@@ -46,31 +46,31 @@
             <br>
             <strong>
               @if ($review->status == "Created")
-                Создана
+                Создан
               @elseif ($review->status == "Rejected")
-                Отклонена
+                Отклонен
               @elseif ($review->status == "Hidden")
-                Скрыта
+                Скрыт
               @elseif ($review->status == "Showed")
                 Отображается
               @endif  
             </strong>
           </span>                  
         </div>
-        <div class="col">
+        <!-- <div class="col">
           <span class="ends">
-            <a class="btn btn-info mt-3">Подробнее</a>
+            <a href="{{ route('admin.reviews.detail', ['review' => $review]) }}" class="btn btn-info mt-3">Подробнее</a>
           </span>
-        </div>
+        </div> -->
         <div class="col">
           @if ($review->status == "Created" || $review->status == "Rejected")
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('admin.reviews.approve', ['review' => $review]) }}">
                 @method('patch')
                 @csrf
                 <input class="btn btn-success mt-3" type="submit" value="Одобрить"/>
             </form>
           @else
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('admin.reviews.reject', ['review' => $review]) }}">
                 @method('patch')
                 @csrf
                 <input class="btn btn-danger mt-3" type="submit" value="Отклонить"/>

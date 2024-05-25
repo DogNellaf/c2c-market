@@ -22,14 +22,8 @@ class MainController extends Controller
         ->orderBy('average', 'DESC')
         ->get();
         $ids = $ads->pluck('id');
-        return Ad::whereIn('id', $ids);
+        return Ad::whereIn('id', $ids)->where("status", "=", "Showed");
 	}
-
-
-	// get 10 most popular ads
-	// protected static function __get_ten_most_popular_ads() {
-    //     return self::__get_most_popular_ads()->limit(10);
-	// }
 
     /**
      * [GET] Show index page.
@@ -111,18 +105,25 @@ class MainController extends Controller
             return abort('500');
         }
 
-        $transaction = WalletHistory::create([
+        $outcome_transaction = WalletHistory::create([
             'user_id' => $user->id,
             'value' => $ad->price,
             'type' => "Outcome"
         ]);
-        $transaction->save();
+        $outcome_transaction->save();
+
+        $income_transaction = WalletHistory::create([
+            'user_id' => $ad->user_id,
+            'value' => $ad->price * 0.9,
+            'type' => "Income"
+        ]);
+        $income_transaction->save();
 
         $order = Order::create([
             'ad_id' => $ad->id,
             'user_id' => $user->id,
             'price' => $ad->price,
-            'status' => 'Оплачен'
+            'status' => 'Paid'
         ]);
         $order->save();
         return redirect()->route('home.ads.bought');

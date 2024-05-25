@@ -54,13 +54,13 @@
         </div>
         <div class="col">
           @if ($ad->status == "Created" || $ad->status == "Rejected")
-            <form method="POST" action="{{ route('admin.ads.approve.method', ['ad' => $ad]) }}">
+            <form method="POST" action="{{ route('admin.ads.approve', ['ad' => $ad]) }}">
                 @method('patch')
                 @csrf
                 <input class="btn btn-success mt-2" type="submit" value="Одобрить"/>
             </form>
           @else
-            <form method="POST" action="{{ route('admin.ads.reject.method', ['ad' => $ad]) }}">
+            <form method="POST" action="{{ route('admin.ads.reject', ['ad' => $ad]) }}">
                 @method('patch')
                 @csrf
                 <input class="btn btn-danger mt-2" type="submit" value="Отклонить"/>
