@@ -19,7 +19,7 @@ return new class extends Migration
 			$table->text('text');
 			$table->boolean('is_recommended');
 			$table->integer('rate');
-			$table->enum('status', array('Создан', 'Отклонён', 'Скрыт', 'Доступен'))-> default('Создан');
+			$table->enum('status', array('Created', 'Rejected', 'Hidden', 'Showed'))->default('Created');
             $table->timestamps();
         });
     }

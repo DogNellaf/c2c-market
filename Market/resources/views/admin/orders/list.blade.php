@@ -1,29 +1,29 @@
 @extends('layouts.admin')
-@section('title', 'Модели')
+@section('title', 'Заказы')
 @section('admin_active', 'active')
-@section('admin-ads-active', 'active')
+@section('admin-orders-active', 'active')
 @section('card')
-  @if ($ads->count() == 0)
+  @if ($orders->count() == 0)
     <div class="row">
       <div class="col">
-        Модели не найдены
+        Заказы не найдены
       </div>
     </div>
   @else
-    @foreach ($ads as $ad)
+    @foreach ($orders as $order)
       <div class="row mt-3">
         <div class="col">
           <span class="bid">
-            Название
+            Заголовок
             <br>
-            <strong>{{$ad->title}}</strong>
+            <strong>{{$order->title}}</strong>
           </span>
         </div>
         <div class="col">
           <span class="bid">
-            Цена
+            Рекомендует?
             <br>
-            <strong>{{$ad->price}} Руб.</strong>
+            <strong>{{$order->is_recommended}} Руб.</strong>
           </span>
         </div>
         <div class="col">
@@ -31,7 +31,7 @@
             Оценка
             <br>
             <strong>
-            {{ $ad->get_average_rating() == -1 ? "Нет" : $ad->get_average_rating() }}
+            
             </strong>
           </span>
         </div>
@@ -40,27 +40,27 @@
             Статус
             <br>
             <strong>
-              @if ($ad->status == "Created")
+              @if ($order->status == "Created")
                 Создана
-              @elseif ($ad->status == "Rejected")
+              @elseif ($order->status == "Rejected")
                 Отклонена
-              @elseif ($ad->status == "Hidden")
+              @elseif ($order->status == "Hidden")
                 Скрыта
-              @elseif ($ad->status == "Showed")
+              @elseif ($order->status == "Showed")
                 Отображается
               @endif  
             </strong>
           </span>                  
         </div>
         <div class="col">
-          @if ($ad->status == "Created" || $ad->status == "Rejected")
-            <form method="POST" action="{{ route('admin.ads.approve.method', ['ad' => $ad]) }}">
+          @if ($order->status == "Created" || $order->status == "Rejected")
+            <form method="POST" action="#">
                 @method('patch')
                 @csrf
                 <input class="btn btn-success mt-2" type="submit" value="Одобрить"/>
             </form>
           @else
-            <form method="POST" action="{{ route('admin.ads.reject.method', ['ad' => $ad]) }}">
+            <form method="POST" action="#">
                 @method('patch')
                 @csrf
                 <input class="btn btn-danger mt-2" type="submit" value="Отклонить"/>
@@ -69,6 +69,6 @@
         </div>
       </div>  
     @endforeach
-    {{ $ads->links('pagination::bootstrap-4') }}
+    {{ $orders->links('pagination::bootstrap-4') }}
   @endif
 @endsection

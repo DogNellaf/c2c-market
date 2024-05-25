@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Review;
 use App\Models\Ad;
 use App\Models\User;
+use App\Models\Order;
 
 class AdminController extends Controller
 {
@@ -77,7 +76,32 @@ class AdminController extends Controller
     public function users() {
 		$user = self::check_auth_user();
 
-		return view('admin/users/list', ['user' => $user, 'users' => User::where("is_admin", "=", "False")->paginate(10)]);
+		return view('admin/users/list', ['user' => $user, 
+                                         'users' => User::where("is_admin", "=", "False")->paginate(10)]);
+	}
+
+    /**
+     * [GET] Show the reviews editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function reviews() {
+		$user = self::check_auth_user();
+
+		return view('admin/reviews/list', ['user' => $user, 
+                                           'reviews' => Review::paginate(10)]);
+	}
+
+    /**
+     * [GET] Show the reviews editor page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function orders() {
+		$user = self::check_auth_user();
+
+		return view('admin/orders/list', ['user' => $user, 
+                                          'orders' => Order::paginate(10)]);
 	}
 
     /**
@@ -85,7 +109,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function ad_reject(Request $request, Ad $ad) {
+	public function ad_reject(Ad $ad) {
 		$user = Auth::user();
 
         if (!$user->is_admin) {
@@ -102,7 +126,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function ad_approve(Request $request, Ad $ad) {
+	public function ad_approve(Ad $ad) {
 		$user = Auth::user();
 
         if (!$user->is_admin) {
@@ -119,7 +143,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function user_ban(Request $request, User $user) {
+	public function user_ban(User $user) {
 		$admin = Auth::user();
 
         if (!$admin->is_admin) {
@@ -139,7 +163,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	public function user_unban(Request $request, User $user) {
+	public function user_unban(User $user) {
 		$admin = Auth::user();
 
         if (!$admin->is_admin) {
