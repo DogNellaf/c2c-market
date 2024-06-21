@@ -3,6 +3,52 @@
 @section('admin_active', 'active')
 @section('admin-ads-active', 'active')
 @section('card')
+<div class="row mt-3 mb-3">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h5 style="color: black;">Фильтрация</h5>
+        </div>
+      </div>
+      <form method="GET" action="{{ route("admin.ads.list") }}" class="row">
+        <div class="col-3">    
+          <label class="form-label mt-2" for="status">Статус объявления</label>
+        </div>
+        <div class="col-6">
+          <select class="form-select" name="status" id="status">
+            <option value="All"
+              @if ($status == "All")
+                selected
+              @endif
+            >Все</option>
+            <option value="Created"
+              @if ($status == "Created")
+                selected
+              @endif
+            >Ждут одобрения</option>
+            <option value="Rejected"
+              @if ($status == "Rejected")
+                selected
+              @endif
+            >Отклоненные</option>
+            <option value="Hidden"
+              @if ($status == "Hidden")
+                selected
+              @endif
+            >Скрытые</option>
+            <option value="Showed"
+              @if ($status == "Showed")
+                selected
+              @endif
+            >Отображаемые</option>
+          </select>
+        </div>
+        <div class="col">    
+          <input class="form-control" type="submit" value="Выбрать"/>
+        </div>
+      </form>
+    </div>
+  </div>
   @if ($ads->count() == 0)
     <div class="row">
       <div class="col">

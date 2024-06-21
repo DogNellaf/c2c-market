@@ -55,13 +55,6 @@ Route::patch('/admin/reviews/{review}/reject', [AdminController::class, 'review_
 Route::patch('/admin/users/{user}/unban', [AdminController::class, 'user_unban'])->name('admin.users.unban.method');
 Route::patch('/admin/users/{user}/ban', [AdminController::class, 'user_ban'])->name('admin.users.ban.method');
 
-// AD pages
-
-Route::get('/ads/edit/{ad}', [AdminController::class, 'ad_edit'])->name('admin.ads.edit.page');
-Route::patch('/ads/edit/{ad}', [AdminController::class, 'ad_update'])->name('admin.edit.method');
-
-Route::delete('/ads/{ad}', [AdminController::class, 'ad_delete'])->name('admin.ads.delete.method');
-
 /* Main pages */
 
 Route::get('/', [MainController::class, 'index'])->name('main.index');

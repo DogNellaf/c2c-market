@@ -28,7 +28,7 @@
                       <div class="content">
                         <h4>{{ $ad->title }}</h4>
                         <span class="author">
-                          <img class="ads-list-user-avatar" src="{{ asset($ad->user->avatar_url) }}" alt="User avatar">
+                          <img class="ads-list-user-avatar" src="{{ asset($ad->user->avatar_url) }}" alt="User avatar" style="width: 50px; height: 50px;">
                           <h6>
                             Автор
                             <br>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Http\Request;
+
 use App\Models\Review;
 use App\Models\Ad;
 use App\Models\User;
@@ -52,10 +54,24 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function ads() {
+    public function ads(Request $request) {
 		$user = self::check_auth_user();
 
-		return view('admin/ads/list', ['user' => $user, 'ads' => Ad::paginate(10)]);
+        $ads = Ad::where("user_id", "!=", "-1");
+
+        $status = $request['status'];
+
+        if ($status != null) {
+            if ($status != "All") {
+                $ads = $ads->where("status", "=", $status);
+            }
+        } else {
+            $status = "All";
+        }
+
+		return view('admin/ads/list', ['user' => $user, 
+                                       'ads' => $ads->paginate(10),
+                                       'status' => $status]);
 	}
 
     /**
@@ -63,11 +79,24 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function users() {
+    public function users(Request $request) {
 		$user = self::check_auth_user();
 
+        $users = User::where("is_admin", "=", "False");
+
+        $is_banned = $request['is_banned'];
+
+        if ($is_banned != null) {
+            if ($is_banned == "true") {
+                $users = $users->where("is_banned", "=", "1");
+            } else if ($is_banned == "false") {
+                $users = $users->where("is_banned", "=", "0");
+            }
+        }
+
 		return view('admin/users/list', ['user' => $user, 
-                                         'users' => User::where("is_admin", "=", "False")->paginate(10)]);
+                                         'users' => $users->paginate(10),
+                                         'is_banned' => $is_banned]);
 	}
 
     /**

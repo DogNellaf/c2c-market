@@ -49,7 +49,7 @@ class Ad extends Model
 	public function get_average_rating() {
 		$reviews = $this->showed_reviews();
 		if ($reviews->count() != 0) {
-			return $reviews->pluck('rate')->avg();
+			return round($reviews->pluck('rate')->avg(), 2);
 		} 
 		return 0;
 	}

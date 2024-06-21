@@ -51,7 +51,7 @@
         <input type="file" class="form-control" id="avatar" name="avatar" accept="image/png">
       </div>
       <div class="col-sm-2">
-        <img id="avatar_img" src="{{$user->avatar_url}}"/>
+        <img id="avatar_img" src="{{$user->avatar_url}}" style="width: 100px; height: 100px;"/>
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Сохранить</button>

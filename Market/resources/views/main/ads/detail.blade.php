@@ -22,7 +22,7 @@
         <div class="col-lg-5 align-self-center">
         	<h4>{{ $ad->title }}</h4>
           <span class="author">
-            <img class="model-detail-user-img" src="{{ asset($ad->user->avatar_url) }}" alt="Изображение автора"/>
+            <img class="model-detail-user-img" src="{{ asset($ad->user->avatar_url) }}" alt="Изображение автора" style="width: 50px; height: 50px;"/>
             <h6>
               <a href="{{ route('main.users.detail', ['user' => $ad->user]) }}">{{ $ad->user->name }}</a>
             </h6>
@@ -60,51 +60,47 @@
 		        </div>
 	        </div>
 	        <div class="col-lg-12">
-		        <div class="row grid">
+		        <div class="row">
               @foreach ($ad->reviews_with_pagination() as $review)
-                <div class="col-lg-12"> 
-                  <div class="row grid">
-                    <div class="col-lg-6 currently-market-item all msc">
-                      <div class="item">
-                        <div class="right-content">
-                          <span class="author">
-                            <h6>
-                              <a>{{ $ad->created_at }}</a>
-                            </h6>
-                          </span>
-                          <span class="author">
-                            <h6>
-                              <a href="{{ route('main.users.detail', ['user' => $ad->user]) }}">{{ $ad->user->name }}</a>
-                            </h6>
-                          </span>
-                          <h4>{{ $review->title }}</h4>
-                          <div class="line-dec"></div>
-                          <span class="bid">
-                            {{ $review->text }}
-                          </span>
-                          <div class="line-dec"></div>
-                          <span class="bid">
-                            @if ($review->is_recommended)
-                              Рекомендую!
-                            @else
-                              Не рекомендую!
-                            @endif
-                          </span>
-                          <span style="color: gold;">
-                            @if ($review->rate == 5)
-                              ★★★★★
-                            @elseif ($review->rate == 4)
-                              ★★★★
-                            @elseif ($review->rate == 3)
-                              ★★★
-                            @elseif ($review->rate == 2)
-                              ★★
-                            @else
-                              ★
-                            @endif
-                          </span>
-                        </div>
-                      </div>
+                <div class="col-6 currently-market-item all msc">
+                  <div class="item">
+                    <div class="right-content">
+                      <span class="author">
+                        <h6>
+                          <a>{{ $review->created_at }}</a>
+                        </h6>
+                      </span>
+                      <span class="author">
+                        <h6>
+                          <a href="{{ route('main.users.detail', ['user' => $review->user]) }}">{{ $review->user->name }}</a>
+                        </h6>
+                      </span>
+                      <h4>{{ $review->title }}</h4>
+                      <div class="line-dec"></div>
+                      <span class="bid">
+                        {{ $review->text }}
+                      </span>
+                      <div class="line-dec"></div>
+                      <span class="bid">
+                        @if ($review->is_recommended)
+                          Рекомендую!
+                        @else
+                          Не рекомендую!
+                        @endif
+                      </span>
+                      <span style="color: gold;">
+                        @if ($review->rate == 5)
+                          ★★★★★
+                        @elseif ($review->rate == 4)
+                          ★★★★
+                        @elseif ($review->rate == 3)
+                          ★★★
+                        @elseif ($review->rate == 2)
+                          ★★
+                        @else
+                          ★
+                        @endif
+                      </span>
                     </div>
                   </div>
                 </div>
